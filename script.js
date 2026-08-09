@@ -4,18 +4,8 @@
    ============================================================ */
 
 // ---- Data ----
-const SERVICES = [
-  { id: 'wash-fold', name: 'Regular Wash & Fold', img: 'assets/services/wash_fold.webp', price: 15, unit: '/piece', badge: 'Popular', desc: 'Basic washing and folding for everyday clothes. Gentle on fabrics, tough on dirt.' },
-  { id: 'comfort-clean', name: 'Comfort Clean & Wash', img: 'assets/services/comfort_clean.webp', price: 200, unit: '/piece', badge: 'Premium', desc: 'Deep-clean wash with extra fabric softener for maximum comfort and freshness.' },
-  { id: 'shoe-clean', name: 'Shoe Clean', img: 'assets/services/shoe_clean.webp', price: 120, unit: '/pair', badge: '', desc: 'Professional shoe cleaning for sneakers, leather shoes, and casual footwear.' },
-  { id: 'suit-wash', name: 'Suit Wash', img: 'assets/services/suit_wash.webp', price: 100, unit: '/piece', badge: 'Delicate', desc: 'Careful hand-finish suit cleaning preserving structure and fabric integrity.' },
-  { id: 'steam-clean', name: 'Steam Clean', img: 'assets/services/steam_clean.webp', price: 50, unit: '/piece', badge: '', desc: 'High-pressure steam treatment to sanitize, deodorize, and refresh garments.' },
-  { id: 'iron-press', name: 'Iron Press', img: 'assets/services/iron_press.webp', price: 10, unit: '/piece', badge: '', desc: 'Crisp and professional ironing service for shirts, trousers, sarees, and more.' },
-  { id: 'express', name: 'Express Service', img: 'assets/services/express.webp', price: 150, unit: '/piece', badge: '24hr', desc: 'Rush service with 24-hour turnaround. Perfect for urgent needs.' },
-  { id: 'delicate-care', name: 'Delicate Care', img: 'assets/services/delicate_care.webp', price: 200, unit: '/piece', badge: 'Gentle', desc: 'Special handling for silk, chiffon, lace, and other delicate fabrics.' },
-  { id: 'dry-clean', name: 'Dry Clean Standard', img: 'assets/services/dry_clean.webp', price: 80, unit: '/piece', badge: 'Pro', desc: 'Industry-standard dry cleaning for garments requiring chemical solvents.' },
-];
-
+let SERVICES = [];
+let STORES = [];
 const PROMOS = [
   { name: 'BlueLock Power', img: 'assets/promos/bluelock.gif', code: 'BLUELOCK10', discount: '10% OFF', desc: 'Power up your wash! 10% off all services.', expiry: 'Expires: 20 April 2026', isGif: false, tag: '10% OFF' },
   { name: 'Zenitsu Thunder Splash', img: 'assets/promos/zenitsu.gif', code: 'THUNDER15', discount: '15% OFF', desc: 'Lightning-speed wash deal! 15% off on Express.', expiry: 'Expires: 15 April 2026', isGif: false, tag: '15% OFF' },
@@ -42,8 +32,54 @@ const FAQ_DATA = [
 ];
 
 // ---- State ----
-let currentStep = 1;
-let orderData = { service: null, store: null, scheduleType: 'pickup', qty: 1, weight: 1.0, promoCode: null, discountPercent: 0, paymentMethod: 'cod' };
+// (Removed order wizard state)
+
+// ============================================================
+// SUPABASE INTEGRATION
+// ============================================================
+const SUPABASE_URL = 'https://xxvicmprwtbxinuluyqx.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dmljbXByd3RieGludWx1eXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NzA2NzcsImV4cCI6MjA4OTA0NjY3N30.qgbvCBRdI1IOPj0AMLE301ZB1mVWuYWg61SS1kIOSvY';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+async function fetchServices() {
+  const { data, error } = await supabaseClient.from('services').select('*').eq('is_active', true);
+  if (error) {
+    console.error('Error fetching services:', error);
+    return;
+  }
+  SERVICES = data.map(item => ({
+    id: item.id,
+    name: item.title,
+    img: item.image_url,
+    price: item.price,
+    unit: '/piece',
+    badge: item.tags && item.tags.length > 0 ? item.tags[0] : '',
+    desc: item.description
+  }));
+  renderServicesSection();
+}
+
+async function fetchStores() {
+  const { data, error } = await supabaseClient.from('stores').select('*').eq('is_active', true);
+  if (error) {
+    console.error('Error fetching stores:', error);
+    return;
+  }
+  STORES = data;
+  renderStoresSection();
+}
+
+function subscribeToRealtime() {
+  supabaseClient
+    .channel('public-changes')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, payload => {
+      fetchServices();
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'stores' }, payload => {
+      fetchStores();
+    })
+    .subscribe();
+}
 
 // ============================================================
 // INIT
@@ -52,15 +88,17 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initBubbles();
   initNav();
-  renderServicesSection();
-  renderServiceSelectGrid();
+
+  // Fetch dynamic data
+  fetchServices();
+  fetchStores();
+  subscribeToRealtime();
+
   renderPromos();
   initHomePromos();
   renderFAQ();
   initScrollReveal();
   initCounters();
-  initOrderSummary();
-  setMinDate();
 
   // Dynamic Enhancements
   initHeroParallax();
@@ -234,14 +272,45 @@ function renderServicesSection() {
       </div>
     </div>
   `).join('');
+
+  // Re-trigger scroll reveal for newly added elements
+  initScrollReveal();
 }
 
 function goOrder(serviceId) {
   scrollToSection('order');
-  setTimeout(() => {
-    const card = document.querySelector(`.service-select-card[data-id="${serviceId}"]`);
-    if (card) { card.click(); }
-  }, 600);
+}
+
+// ============================================================
+// RENDER STORES
+// ============================================================
+function renderStoresSection() {
+  const grid = document.getElementById('storesGrid');
+  if (!grid) return;
+  grid.innerHTML = STORES.map((s, index) => `
+    <div class="store-card reveal delay-${index % 4}">
+      <div class="store-img-wrap">
+        <img src="${s.logo_url}" alt="${s.name}" loading="lazy" decoding="async" />
+        <div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div>
+      </div>
+      <div class="store-info">
+        <h3>${s.name}</h3>
+        <p class="store-addr"><i class="fas fa-location-dot"></i> ${s.address}</p>
+        <p class="store-phone"><i class="fas fa-phone"></i> ${s.phone}</p>
+        <p class="store-hours"><i class="fas fa-clock"></i> Open: ${s.open_hour > 12 ? s.open_hour - 12 + 'PM' : s.open_hour + 'AM'} – ${s.close_hour > 12 ? s.close_hour - 12 + 'PM' : s.close_hour + 'AM'}</p>
+        <div class="store-tags">
+          <span class="store-tag">${s.city}</span>
+          <span class="store-tag">~${s.distance_km}km</span>
+        </div>
+        <a href="https://maps.google.com/?q=${s.latitude},${s.longitude}" target="_blank" class="store-map-btn">
+          <i class="fas fa-directions"></i> Get Directions
+        </a>
+      </div>
+    </div>
+  `).join('');
+
+  // Re-trigger scroll reveal for newly added elements
+  initScrollReveal();
 }
 
 // ============================================================
@@ -295,199 +364,6 @@ function copyPromoCode(code, el) {
 function scrollPromos(dir) {
   const track = document.getElementById('promoTrack');
   if (track) track.scrollBy({ left: dir * 320, behavior: 'smooth' });
-}
-
-// ============================================================
-// RENDER SERVICE SELECT GRID (ORDER STEP 1)
-// ============================================================
-function renderServiceSelectGrid() {
-  const grid = document.getElementById('serviceSelectGrid');
-  if (!grid) return;
-  grid.innerHTML = SERVICES.map(s => `
-    <div class="service-select-card" data-id="${s.id}" data-price="${s.price}" data-name="${s.name}" onclick="selectService(this)">
-      <img src="${s.img}" alt="${s.name}" />
-      <div class="service-select-card-info">
-        <h4>${s.name}</h4>
-        <p>From ৳${s.price}${s.unit}</p>
-      </div>
-    </div>
-  `).join('');
-}
-
-// ============================================================
-// ORDER WIZARD
-// ============================================================
-function selectService(card) {
-  document.querySelectorAll('.service-select-card').forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-  orderData.service = { id: card.dataset.id, name: card.dataset.name, price: parseInt(card.dataset.price) };
-  updateOrderSummary();
-}
-
-function selectStore(card, name) {
-  document.querySelectorAll('.store-select-card').forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-  orderData.store = name;
-  updateOrderSummary();
-}
-
-function selectScheduleType(el, type) {
-  document.querySelectorAll('.schedule-option').forEach(o => o.classList.remove('active'));
-  el.classList.add('active');
-  orderData.scheduleType = type;
-  const addrGroup = document.getElementById('deliveryAddressGroup');
-  if (type === 'delivery') addrGroup.classList.remove('hidden');
-  else addrGroup.classList.add('hidden');
-}
-
-function selectPayment(card, method) {
-  document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('active'));
-  card.classList.add('active');
-  orderData.paymentMethod = method;
-  const cardFields = document.getElementById('cardFields');
-  if (method === 'card') cardFields.classList.remove('hidden');
-  else cardFields.classList.add('hidden');
-  updateFinalSummary();
-}
-
-function changeQty(delta) {
-  orderData.qty = Math.max(1, orderData.qty + delta);
-  document.getElementById('qtyValue').textContent = orderData.qty;
-  updateOrderSummary();
-}
-
-function changeWeight(delta) {
-  orderData.weight = Math.max(0.5, parseFloat((orderData.weight + delta).toFixed(1)));
-  document.getElementById('weightValue').textContent = orderData.weight.toFixed(1);
-  updateOrderSummary();
-}
-
-function fillPromo(code) {
-  document.getElementById('promoInput').value = code;
-  applyPromo();
-}
-
-function applyPromo() {
-  const input = document.getElementById('promoInput').value.trim().toUpperCase();
-  const feedback = document.getElementById('promoFeedback');
-  if (!input) { setFeedback(feedback, 'Please enter a promo code.', 'error'); return; }
-  if (PROMO_CODES[input]) {
-    orderData.promoCode = input;
-    orderData.discountPercent = PROMO_CODES[input];
-    setFeedback(feedback, `✅ "${input}" applied! ${PROMO_CODES[input]}% discount.`, 'success');
-    updateOrderSummary();
-    document.getElementById('discountRow').classList.remove('hidden');
-  } else {
-    orderData.promoCode = null; orderData.discountPercent = 0;
-    setFeedback(feedback, '❌ Invalid or expired promo code.', 'error');
-    document.getElementById('discountRow').classList.add('hidden');
-    updateOrderSummary();
-  }
-}
-
-function setFeedback(el, msg, type) {
-  el.textContent = msg;
-  el.className = `promo-feedback ${type}`;
-}
-
-function updateOrderSummary() {
-  const s = orderData;
-  const price = s.service ? s.service.price : 0;
-  const subtotal = price * s.qty;
-  const discount = Math.round(subtotal * (s.discountPercent / 100));
-  const total = subtotal - discount;
-  document.getElementById('sumService').textContent = s.service ? s.service.name : '—';
-  document.getElementById('sumStore').textContent = s.store || '—';
-  document.getElementById('sumItems').textContent = `${s.qty} item(s)`;
-  document.getElementById('sumSubtotal').textContent = `৳${subtotal}`;
-  document.getElementById('sumDiscount').textContent = `−৳${discount}`;
-  document.getElementById('sumTotal').textContent = `৳${total}`;
-  orderData.total = total;
-  orderData.subtotal = subtotal;
-  orderData.discount = discount;
-  updateFinalSummary();
-}
-
-function initOrderSummary() { updateOrderSummary(); }
-
-function updateFinalSummary() {
-  const el = document.getElementById('finalSummary');
-  if (!el) return;
-  const s = orderData;
-  const payLabel = { cod: 'Cash on Delivery', bkash: 'bKash', card: 'Credit/Debit Card', nagad: 'Nagad' };
-  el.innerHTML = `
-    <div style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:0.75rem;font-weight:700;font-family:'Alexandria',sans-serif;">Order Summary</div>
-    <div style="display:grid;gap:0.5rem;font-size:0.95rem;font-weight:500;">
-      ${s.service ? `<div style="display:flex;justify-content:space-between"><span>${s.service.name}</span><span>৳${s.subtotal}</span></div>` : ''}
-      ${s.discount ? `<div style="display:flex;justify-content:space-between;color:var(--success);font-weight:600;"><span>Promo (${s.promoCode})</span><span>−৳${s.discount}</span></div>` : ''}
-      <div style="display:flex;justify-content:space-between;font-weight:800;font-size:1.15rem;border-top:1.5px dashed var(--border);padding-top:0.75rem;margin-top:0.25rem;font-family:'Alexandria',sans-serif;"><span>Total</span><span style="color:var(--blue-2)">৳${s.total || 0}</span></div>
-      <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.2rem;font-weight:600;">Payment: ${payLabel[s.paymentMethod] || 'COD'}</div>
-    </div>
-  `;
-}
-
-function nextStep(step) {
-  if (step === 1 && !orderData.service) { showToast('Please select a service first!', 'error'); return; }
-  if (step === 2 && !orderData.store) { showToast('Please select a store!', 'error'); return; }
-  goToStep(step + 1);
-}
-
-function prevStep(step) { goToStep(step - 1); }
-
-function goToStep(step) {
-  document.querySelectorAll('.order-panel').forEach((p, i) => {
-    p.classList.toggle('active', i === step - 1);
-  });
-  document.querySelectorAll('.order-step').forEach((s, i) => {
-    s.classList.toggle('active', i + 1 === step);
-    s.classList.toggle('completed', i + 1 < step);
-  });
-  document.querySelectorAll('.order-step-line').forEach((l, i) => {
-    l.classList.toggle('active', i + 1 < step);
-  });
-  currentStep = step;
-  if (step === 4) updateOrderSummary();
-  if (step === 5) updateFinalSummary();
-  document.getElementById('orderWizard').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function placeOrder() {
-  const orderId = 'EW-' + Date.now().toString().slice(-6);
-  document.getElementById('orderId').textContent = orderId;
-  const s = orderData;
-  const details = document.getElementById('successDetails');
-  const payLabel = { cod: '💵 Cash on Delivery', bkash: '📱 bKash', card: '💳 Card', nagad: '👛 Nagad' };
-  details.innerHTML = [
-    s.service ? `<div class="success-detail-chip">🧺 ${s.service.name}</div>` : '',
-    s.store ? `<div class="success-detail-chip">📍 ${s.store}</div>` : '',
-    `<div class="success-detail-chip">📦 ${s.qty} item(s)</div>`,
-    `<div class="success-detail-chip">${payLabel[s.paymentMethod]}</div>`,
-    `<div class="success-detail-chip" style="border-color:var(--blue-2);color:var(--blue-2);">💰 Total: ৳${s.total || 0}</div>`,
-    s.promoCode ? `<div class="success-detail-chip" style="border-color:var(--success);color:var(--success);">🏷️ ${s.promoCode}</div>` : '',
-  ].join('');
-  document.querySelectorAll('.order-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('stepSuccess').classList.add('active');
-  document.querySelectorAll('.order-step').forEach(s => { s.classList.remove('active'); s.classList.add('completed'); });
-}
-
-function resetOrder() {
-  orderData = { service: null, store: null, scheduleType: 'pickup', qty: 1, weight: 1.0, promoCode: null, discountPercent: 0, paymentMethod: 'cod' };
-  document.querySelectorAll('.service-select-card').forEach(c => c.classList.remove('selected'));
-  document.querySelectorAll('.store-select-card').forEach(c => c.classList.remove('selected'));
-  document.getElementById('promoInput').value = '';
-  document.getElementById('promoFeedback').textContent = '';
-  document.getElementById('discountRow').classList.add('hidden');
-  document.querySelectorAll('.payment-card').forEach((c, i) => c.classList.toggle('active', i === 0));
-  document.getElementById('cardFields').classList.add('hidden');
-  document.getElementById('qtyValue').textContent = '1';
-  document.getElementById('weightValue').textContent = '1.0';
-  updateOrderSummary();
-  goToStep(1);
-}
-
-function setMinDate() {
-  const d = document.getElementById('scheduleDate');
-  if (d) { const today = new Date(); d.min = today.toISOString().split('T')[0]; d.value = today.toISOString().split('T')[0]; }
 }
 
 // ============================================================

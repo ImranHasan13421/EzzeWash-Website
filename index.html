@@ -212,220 +212,60 @@
       <p class="section-sub">Get your clothes cleaned without leaving home</p>
     </div>
 
-    <div class="order-wizard reveal" id="orderWizard">
-      <div class="order-steps">
-        <div class="order-step active" data-step="1">
-          <div class="step-circle">1</div><span>Service</span>
-        </div>
-        <div class="order-step-line"></div>
-        <div class="order-step" data-step="2">
-          <div class="step-circle">2</div><span>Store</span>
-        </div>
-        <div class="order-step-line"></div>
-        <div class="order-step" data-step="3">
-          <div class="step-circle">3</div><span>Schedule</span>
-        </div>
-        <div class="order-step-line"></div>
-        <div class="order-step" data-step="4">
-          <div class="step-circle">4</div><span>Quantity</span>
-        </div>
-        <div class="order-step-line"></div>
-        <div class="order-step" data-step="5">
-          <div class="step-circle">5</div><span>Payment</span>
+    <div class="process-timeline reveal">
+      <div class="timeline-line"></div>
+
+      <div class="timeline-item left reveal">
+        <div class="timeline-icon"><i class="fas fa-tshirt"></i></div>
+        <div class="timeline-content glass-panel">
+          <div class="step-num">Step 1</div>
+          <h3>Select your Service</h3>
+          <p>Choose from our premium washing, dry cleaning, or ironing services tailored to your fabrics.</p>
         </div>
       </div>
 
-      <div class="order-panel active" id="step1">
-        <h3 class="step-title">Select Your Service</h3>
-        <div class="service-select-grid" id="serviceSelectGrid"></div>
-        <div class="step-nav"><button class="cta-btn primary-btn" onclick="nextStep(1)">Continue <i
-              class="fas fa-arrow-right"></i></button></div>
-      </div>
-
-      <div class="order-panel" id="step2">
-        <h3 class="step-title">Choose a Store</h3>
-        <div class="store-select-grid">
-          <div class="store-select-card" onclick="selectStore(this, 'Mirpur')">
-            <img src="assets/stores/mirpur.webp" alt="Mirpur" loading="lazy" decoding="async" />
-            <div class="store-select-info">
-              <h4>Ezzewash Mirpur</h4>
-              <p><i class="fas fa-map-marker-alt"></i> Mirpur, Dhaka</p>
-            </div>
-          </div>
-          <div class="store-select-card" onclick="selectStore(this, 'Gulshan')">
-            <img src="assets/stores/gulshan.webp" alt="Gulshan" loading="lazy" decoding="async" />
-            <div class="store-select-info">
-              <h4>Ezzewash Gulshan</h4>
-              <p><i class="fas fa-map-marker-alt"></i> Gulshan, Dhaka</p>
-            </div>
-          </div>
-          <div class="store-select-card" onclick="selectStore(this, 'Dhanmondi')">
-            <img src="assets/stores/dhanmondi.webp" alt="Dhanmondi" loading="lazy" decoding="async" />
-            <div class="store-select-info">
-              <h4>Ezzewash Dhanmondi</h4>
-              <p><i class="fas fa-map-marker-alt"></i> Dhanmondi, Dhaka</p>
-            </div>
-          </div>
-          <div class="store-select-card" onclick="selectStore(this, 'Chadd Uddan')">
-            <img src="assets/stores/chadd_uddan.webp" alt="Chadd Uddan" loading="lazy" decoding="async" />
-            <div class="store-select-info">
-              <h4>Ezzewash Chadd Uddan</h4>
-              <p><i class="fas fa-map-marker-alt"></i> Chadd Uddan, Dhaka</p>
-            </div>
-          </div>
-        </div>
-        <div class="step-nav">
-          <button class="cta-btn outline-btn" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
-          <button class="cta-btn primary-btn" onclick="nextStep(2)">Continue <i class="fas fa-arrow-right"></i></button>
+      <div class="timeline-item right reveal delay-1">
+        <div class="timeline-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="timeline-content glass-panel">
+          <div class="step-num">Step 2</div>
+          <h3>Select Store Location</h3>
+          <p>Find the nearest EzzeWash store across Dhaka for quick drop-offs and fast processing.</p>
         </div>
       </div>
 
-      <div class="order-panel" id="step3">
-        <h3 class="step-title">Pickup or Delivery?</h3>
-        <div class="schedule-type">
-          <div class="schedule-option active" onclick="selectScheduleType(this, 'pickup')">
-            <i class="fas fa-store"></i>
-            <h4>Store Pickup</h4>
-            <p>Bring to store, we'll call when ready</p>
-          </div>
-          <div class="schedule-option" onclick="selectScheduleType(this, 'delivery')">
-            <i class="fas fa-truck"></i>
-            <h4>Door Delivery</h4>
-            <p>We pick up & deliver to your door</p>
-          </div>
-        </div>
-        <div class="schedule-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label><i class="fas fa-calendar"></i> Date</label>
-              <input type="date" id="scheduleDate" class="form-input" />
-            </div>
-            <div class="form-group">
-              <label><i class="fas fa-clock"></i> Time Slot</label>
-              <select class="form-input" id="scheduleTime">
-                <option>9:00 AM – 11:00 AM</option>
-                <option>11:00 AM – 1:00 PM</option>
-                <option>1:00 PM – 3:00 PM</option>
-                <option>3:00 PM – 5:00 PM</option>
-                <option>5:00 PM – 7:00 PM</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group delivery-address hidden" id="deliveryAddressGroup">
-            <label><i class="fas fa-home"></i> Delivery Address</label>
-            <input type="text" class="form-input" placeholder="Enter your full address..." />
-          </div>
-        </div>
-        <div class="step-nav">
-          <button class="cta-btn outline-btn" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Back</button>
-          <button class="cta-btn primary-btn" onclick="nextStep(3)">Continue <i class="fas fa-arrow-right"></i></button>
+      <div class="timeline-item left reveal delay-2">
+        <div class="timeline-icon"><i class="fas fa-calendar-alt"></i></div>
+        <div class="timeline-content glass-panel">
+          <div class="step-num">Step 3</div>
+          <h3>Select your Suitable Schedule</h3>
+          <p>Pick a convenient time slot for store pickup or doorstep delivery that fits your busy day.</p>
         </div>
       </div>
 
-      <div class="order-panel" id="step4">
-        <h3 class="step-title">Quantity & Promo</h3>
-        <div class="quantity-section">
-          <div class="qty-item">
-            <span class="qty-label">Number of Items</span>
-            <div class="qty-control">
-              <button class="qty-btn" onclick="changeQty(-1)">−</button>
-              <span id="qtyValue">1</span>
-              <button class="qty-btn" onclick="changeQty(1)">+</button>
-            </div>
-          </div>
-          <div class="qty-item">
-            <span class="qty-label">Weight (kg)</span>
-            <div class="qty-control">
-              <button class="qty-btn" onclick="changeWeight(-0.5)">−</button>
-              <span id="weightValue">1.0</span>
-              <button class="qty-btn" onclick="changeWeight(0.5)">+</button>
-            </div>
-          </div>
-        </div>
-        <div class="promo-apply">
-          <h4><i class="fas fa-tag"></i> Have a Promo Code?</h4>
-          <div class="promo-input-row">
-            <input type="text" id="promoInput" class="form-input" placeholder="Enter promo code..." />
-            <button class="cta-btn primary-btn" onclick="applyPromo()">Apply</button>
-          </div>
-          <div id="promoFeedback" class="promo-feedback"></div>
-          <div class="promo-chips">
-            <span class="promo-chip" onclick="fillPromo('BLUELOCK10')">BLUELOCK10</span>
-            <span class="promo-chip" onclick="fillPromo('THUNDER15')">THUNDER15</span>
-            <span class="promo-chip" onclick="fillPromo('DEVSPECIAL')">DEVSPECIAL</span>
-            <span class="promo-chip" onclick="fillPromo('BOISHAKH20')">BOISHAKH20</span>
-          </div>
-        </div>
-        <div class="order-summary-mini" id="orderSummaryMini">
-          <div class="summary-row"><span>Service</span><span id="sumService">—</span></div>
-          <div class="summary-row"><span>Store</span><span id="sumStore">—</span></div>
-          <div class="summary-row"><span>Items</span><span id="sumItems">1</span></div>
-          <div class="summary-row"><span>Subtotal</span><span id="sumSubtotal">৳0</span></div>
-          <div class="summary-row discount hidden" id="discountRow"><span>Discount</span><span
-              id="sumDiscount">−৳0</span></div>
-          <div class="summary-row total"><span>Total</span><span id="sumTotal">৳0</span></div>
-        </div>
-        <div class="step-nav">
-          <button class="cta-btn outline-btn" onclick="prevStep(4)"><i class="fas fa-arrow-left"></i> Back</button>
-          <button class="cta-btn primary-btn" onclick="nextStep(4)">Continue <i class="fas fa-arrow-right"></i></button>
+      <div class="timeline-item right reveal delay-3">
+        <div class="timeline-icon"><i class="fas fa-balance-scale"></i></div>
+        <div class="timeline-content glass-panel">
+          <div class="step-num">Step 4</div>
+          <h3>Insert Quantity and Promo</h3>
+          <p>Add the number of items or weight, and apply your exclusive promo code for amazing discounts.</p>
         </div>
       </div>
 
-      <div class="order-panel" id="step5">
-        <h3 class="step-title">Payment Method</h3>
-        <div class="payment-grid">
-          <div class="payment-card active" onclick="selectPayment(this, 'cod')">
-            <i class="fas fa-money-bill-wave"></i>
-            <h4>Cash on Delivery</h4>
-            <p>Pay when we deliver</p>
-          </div>
-          <div class="payment-card" onclick="selectPayment(this, 'bkash')">
-            <i class="fas fa-mobile-alt"></i>
-            <h4>bKash</h4>
-            <p>Mobile banking</p>
-          </div>
-          <div class="payment-card" onclick="selectPayment(this, 'card')">
-            <i class="fas fa-credit-card"></i>
-            <h4>Card Payment</h4>
-            <p>Visa / Mastercard</p>
-          </div>
-          <div class="payment-card" onclick="selectPayment(this, 'nagad')">
-            <i class="fas fa-wallet"></i>
-            <h4>Nagad</h4>
-            <p>Digital wallet</p>
-          </div>
-        </div>
-        <div class="card-fields hidden" id="cardFields">
-          <div class="form-group">
-            <label>Card Number</label>
-            <input type="text" class="form-input" placeholder="•••• •••• •••• ••••" maxlength="19" />
-          </div>
-          <div class="form-row">
-            <div class="form-group"><label>Expiry</label><input type="text" class="form-input" placeholder="MM/YY" />
-            </div>
-            <div class="form-group"><label>CVV</label><input type="text" class="form-input" placeholder="•••" /></div>
-          </div>
-        </div>
-        <div class="final-summary" id="finalSummary"></div>
-        <div class="step-nav">
-          <button class="cta-btn outline-btn" onclick="prevStep(5)"><i class="fas fa-arrow-left"></i> Back</button>
-          <button class="cta-btn primary-btn big-order-btn" onclick="placeOrder()"><i class="fas fa-check-circle"></i>
-            Place Order</button>
+      <div class="timeline-item left reveal delay-4">
+        <div class="timeline-icon"><i class="fas fa-credit-card"></i></div>
+        <div class="timeline-content glass-panel">
+          <div class="step-num">Step 5</div>
+          <h3>Choose Payment Method</h3>
+          <p>Pay easily via Cash on Delivery (COD) or securely online using bKash, Nagad, or Cards.</p>
         </div>
       </div>
 
-      <div class="order-panel" id="stepSuccess">
-        <div class="success-screen">
-          <div class="success-animation">
-            <div class="success-circle"><i class="fas fa-check"></i></div>
-            <div class="success-ripple"></div>
-            <div class="success-ripple delay"></div>
-          </div>
-          <h2 class="success-title">Order Placed! 🎉</h2>
-          <p class="success-sub">Your laundry is in good hands. We'll notify you every step of the way!</p>
-          <div class="success-order-id">Order ID: <strong id="orderId"></strong></div>
-          <div class="success-details" id="successDetails"></div>
-          <button class="cta-btn primary-btn" onclick="resetOrder()">Place Another Order</button>
+      <div class="timeline-item right reveal delay-5">
+        <div class="timeline-icon success-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="timeline-content glass-panel success-panel">
+          <div class="step-num success">Done</div>
+          <h3>Order Placed 🎉</h3>
+          <p>Sit back and relax! Your laundry is in expert hands, and we'll keep you updated.</p>
         </div>
       </div>
     </div>
@@ -446,72 +286,7 @@
       <h2 class="section-title">Our <span class="gradient-text">Store Locations</span></h2>
       <p class="section-sub">Four convenient locations across Dhaka city</p>
     </div>
-    <div class="stores-grid">
-      <div class="store-card reveal">
-        <div class="store-img-wrap"><img src="assets/stores/mirpur.webp" alt="Mirpur Store" loading="lazy"
-            decoding="async" />
-          <div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div>
-        </div>
-        <div class="store-info">
-          <h3>Ezzewash Mirpur</h3>
-          <p class="store-addr"><i class="fas fa-location-dot"></i> House 12, Road 4, Mirpur-10, Dhaka</p>
-          <p class="store-phone"><i class="fas fa-phone"></i> +8801616043914</p>
-          <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
-          <div class="store-tags"><span class="store-tag">Wash & Fold</span><span class="store-tag">Dry
-              Clean</span><span class="store-tag">Express</span></div>
-          <a href="https://maps.google.com" target="_blank" class="store-map-btn"><i class="fas fa-directions"></i> Get
-            Directions</a>
-        </div>
-      </div>
-      <div class="store-card reveal delay-1">
-        <div class="store-img-wrap"><img src="assets/stores/gulshan.webp" alt="Gulshan Store" loading="lazy"
-            decoding="async" />
-          <div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div>
-        </div>
-        <div class="store-info">
-          <h3>Ezzewash Gulshan</h3>
-          <p class="store-addr"><i class="fas fa-location-dot"></i> Plot 7, Avenue 2, Gulshan-2, Dhaka</p>
-          <p class="store-phone"><i class="fas fa-phone"></i> +8801516503532</p>
-          <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
-          <div class="store-tags"><span class="store-tag">Suit Wash</span><span class="store-tag">Dry Clean</span><span
-              class="store-tag">Delicate</span></div>
-          <a href="https://maps.google.com" target="_blank" class="store-map-btn"><i class="fas fa-directions"></i> Get
-            Directions</a>
-        </div>
-      </div>
-      <div class="store-card reveal delay-2">
-        <div class="store-img-wrap"><img src="assets/stores/dhanmondi.webp" alt="Dhanmondi Store" loading="lazy"
-            decoding="async" />
-          <div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div>
-        </div>
-        <div class="store-info">
-          <h3>Ezzewash Dhanmondi</h3>
-          <p class="store-addr"><i class="fas fa-location-dot"></i> House 35, Road 27, Dhanmondi, Dhaka</p>
-          <p class="store-phone"><i class="fas fa-phone"></i> +8801401439995</p>
-          <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
-          <div class="store-tags"><span class="store-tag">Iron Press</span><span class="store-tag">Steam</span><span
-              class="store-tag">Shoe Clean</span></div>
-          <a href="https://maps.google.com" target="_blank" class="store-map-btn"><i class="fas fa-directions"></i> Get
-            Directions</a>
-        </div>
-      </div>
-      <div class="store-card reveal delay-3">
-        <div class="store-img-wrap"><img src="assets/stores/chadd_uddan.webp" alt="Chadd Uddan Store" loading="lazy"
-            decoding="async" />
-          <div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div>
-        </div>
-        <div class="store-info">
-          <h3>Ezzewash Chadd Uddan</h3>
-          <p class="store-addr"><i class="fas fa-location-dot"></i> Road 1, Chadd Uddan Housing, Mohammadpur,Dhaka</p>
-          <p class="store-phone"><i class="fas fa-phone"></i> +8801522135401</p>
-          <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
-          <div class="store-tags"><span class="store-tag">All Services</span><span class="store-tag">Parking</span><span
-              class="store-tag">24/7</span></div>
-          <a href="https://maps.app.goo.gl/jt5TfnefD14641HR8" target="_blank" class="store-map-btn"><i
-              class="fas fa-directions"></i> Get Directions</a>
-        </div>
-      </div>
-    </div>
+    <div class="stores-grid" id="storesGrid"></div>
   </section>
 
   <section class="section" id="promos">
@@ -764,6 +539,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
 </body>
 
