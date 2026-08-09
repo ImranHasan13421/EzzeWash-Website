@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCounters();
   initOrderSummary();
   setMinDate();
-  
+
   // Dynamic Enhancements
   initHeroParallax();
   initDraggableSliders();
@@ -77,14 +77,14 @@ function initBubbles() {
   for (let i = 0; i < bubbleCount; i++) {
     const bubble = document.createElement('div');
     bubble.className = 'bg-bubble';
-    
+
     const size = Math.random() * 70 + 30;
     bubble.style.width = `${size}px`;
     bubble.style.height = `${size}px`;
     bubble.style.left = `${Math.random() * 100}vw`;
     bubble.style.animationDuration = `${Math.random() * 13 + 12}s`;
     bubble.style.animationDelay = `${Math.random() * 10}s`;
-    
+
     container.appendChild(bubble);
   }
 }
@@ -95,16 +95,23 @@ function initBubbles() {
 function initHeroParallax() {
   const wrap = document.querySelector('.hero-img-wrap');
   if (!wrap) return;
+  let ticking = false;
   document.addEventListener('mousemove', (e) => {
     if (window.innerWidth < 900) {
       wrap.style.transform = 'none'; // Disable on mobile to prevent jitter
       return;
     }
-    const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
-    const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
-    wrap.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+        wrap.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        ticking = false;
+      });
+      ticking = true;
+    }
   });
-  
+
   // Reset on leave to maintain standard styling
   document.querySelector('.hero').addEventListener('mouseleave', () => {
     if (window.innerWidth >= 900) {
@@ -214,7 +221,7 @@ function renderServicesSection() {
   grid.innerHTML = SERVICES.map(s => `
     <div class="service-card reveal">
       <div class="service-card-img">
-        <img src="${s.img}" alt="${s.name}" loading="lazy" />
+        <img src="${s.img}" alt="${s.name}" loading="lazy" decoding="async" />
         ${s.badge ? `<div class="service-card-badge">${s.badge}</div>` : ''}
       </div>
       <div class="service-card-body">
@@ -250,7 +257,7 @@ function initHomePromos() {
   const track = document.getElementById('homePromoTrack');
   if (!track) return;
   const cards = PROMOS.map(p => promoCardHTML(p, true)).join('');
-  track.innerHTML = cards + cards + cards;
+  track.innerHTML = cards + cards;
 }
 
 function promoCardHTML(p, small = false) {
@@ -258,7 +265,7 @@ function promoCardHTML(p, small = false) {
     <div class="promo-card${small ? ' small' : ''}">
       ${p.tag ? `<div class="promo-tag">${p.tag}</div>` : ''}
       <div class="promo-card-media">
-        <img src="${p.img}" alt="${p.name}" loading="lazy" />
+        <img src="${p.img}" alt="${p.name}" loading="lazy" decoding="async" />
         ${p.isGif ? '<div class="promo-gif-badge">GIF</div>' : ''}
       </div>
       <div class="promo-card-body">
@@ -276,7 +283,7 @@ function promoCardHTML(p, small = false) {
 }
 
 function copyPromoCode(code, el) {
-  navigator.clipboard.writeText(code).catch(() => {});
+  navigator.clipboard.writeText(code).catch(() => { });
   const icon = el.querySelector('i');
   icon.className = 'fas fa-check';
   icon.style.color = 'var(--success)';
@@ -602,14 +609,14 @@ function hideBotTyping() { if (typingEl) { typingEl.remove(); typingEl = null; }
 // ============================================================
 function initScrollReveal() {
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { 
-      if (e.isIntersecting) { 
-        e.target.classList.add('visible'); 
-        observer.unobserve(e.target); 
-      } 
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
     });
   }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-  
+
   document.querySelectorAll('.reveal').forEach(el => {
     observer.observe(el);
   });
@@ -654,7 +661,7 @@ function showToast(message, type = 'success') {
   toast.className = `toast ${type}`;
   toast.innerHTML = `<i class="fas ${icons[type] || icons.success}"></i><span>${message}</span>`;
   document.body.appendChild(toast);
-  setTimeout(() => { if(toast) toast.remove() }, 3400); 
+  setTimeout(() => { if (toast) toast.remove() }, 3400);
 }
 
 

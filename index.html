@@ -1,626 +1,770 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EzzeWash — Premium Laundry Service</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&family=Alexandria:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&family=Alexandria:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
+
 <body>
 
-<div id="bg-bubbles" class="bg-bubbles"></div>
+  <div id="bg-bubbles" class="bg-bubbles"></div>
 
-<nav class="navbar" id="navbar">
-  <div class="nav-container">
-    <div class="nav-logo">
-      <img src="assets/logos/logo.webp" alt="EzzeWash Logo" class="logo-img" />
-      <span class="logo-text">EzzeWash</span>
-    </div>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#home" class="nav-link active" data-page="home">Home</a></li>
-      <li><a href="#order" class="nav-link" data-page="order">Order</a></li>
-      <li><a href="#services" class="nav-link" data-page="services">Services</a></li>
-      <li><a href="#stores" class="nav-link" data-page="stores">Stores</a></li>
-      <li><a href="#promos" class="nav-link" data-page="promos">Promos</a></li>
-      <li><a href="#terms" class="nav-link" data-page="terms">Terms & Policy</a></li>
-      <li><a href="#help" class="nav-link" data-page="help">Help & Support</a></li>
-    </ul>
-    <div class="nav-actions">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <span class="sun-icon"><i class="fas fa-sun"></i></span>
-        <span class="moon-icon"><i class="fas fa-moon"></i></span>
-      </button>
-      <button class="cta-btn nav-cta" onclick="scrollToSection('order')">Order Now</button>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-</nav>
-
-<section class="section" id="home">
-  <div class="hero">
-    <div class="hero-bg-anim"></div>
-    <div class="hero-content">
-      <div class="hero-badge animate-fade-up delay-1"><i class="fas fa-star"></i> Bangladesh's First Online Laundry System</div>
-      <h1 class="hero-title animate-fade-up delay-2">Fresh Clothes,<br /><span class="gradient-text">Zero Hassle.</span></h1>
-      <p class="hero-sub animate-fade-up delay-3">Premium laundry & dry cleaning delivered to your door. Professional care for every fabric, every time.</p>
-      <div class="hero-btns animate-fade-up delay-4">
-        <button class="cta-btn primary-btn" onclick="scrollToSection('order')"><i class="fas fa-tshirt"></i> Place Order</button>
-        <button class="cta-btn outline-btn" onclick="scrollToSection('services')"><i class="fas fa-sparkles"></i> Our Services</button>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <img src="assets/logos/logo.webp" alt="EzzeWash Logo" class="logo-img" />
+        <span class="logo-text">EzzeWash</span>
       </div>
-      <div class="hero-stats animate-fade-up delay-5">
-        <div class="stat"><span class="stat-num" data-target="500">0</span><span>+</span><p>Happy Customers</p></div>
-        <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num" data-target="4">0</span><span>+</span><p>Store Locations</p></div>
-        <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num" data-target="9">0</span><span>+</span><p>Services Offered</p></div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="nav-link active" data-page="home">Home</a></li>
+        <li><a href="#order" class="nav-link" data-page="order">Order</a></li>
+        <li><a href="#services" class="nav-link" data-page="services">Services</a></li>
+        <li><a href="#stores" class="nav-link" data-page="stores">Stores</a></li>
+        <li><a href="#promos" class="nav-link" data-page="promos">Promos</a></li>
+        <li><a href="#terms" class="nav-link" data-page="terms">Terms & Policy</a></li>
+        <li><a href="#help" class="nav-link" data-page="help">Help & Support</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <span class="sun-icon"><i class="fas fa-sun"></i></span>
+          <span class="moon-icon"><i class="fas fa-moon"></i></span>
+        </button>
+        <button class="cta-btn nav-cta" onclick="scrollToSection('order')">Order Now</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
-    <div class="hero-image animate-float delay-3">
-      <div class="hero-img-wrap">
-        <img src="assets/logos/hero-image.gif" alt="EzzeWash Banner" />
-        <div class="hero-img-glow"></div>
-      </div>
-    </div>
-  </div>
+  </nav>
 
-  <div class="features-strip animate-fade-up delay-2">
-    <div class="feature-item"><i class="fas fa-truck"></i><span>Free Pickup & Delivery</span></div>
-    <div class="feature-item"><i class="fas fa-clock"></i><span>24hr Express Service</span></div>
-    <div class="feature-item"><i class="fas fa-shield-alt"></i><span>Fabric Protection</span></div>
-    <div class="feature-item"><i class="fas fa-leaf"></i><span>Eco-Friendly Products</span></div>
-    <div class="feature-item"><i class="fas fa-star"></i><span>5-Star Quality</span></div>
-  </div>
-
-  <div class="why-section">
-    <div class="section-header center">
-      <div class="section-badge">Why EzzeWash?</div>
-      <h2 class="section-title">We Care About <span class="gradient-text">Every Thread</span></h2>
-    </div>
-    <div class="why-grid">
-      <div class="why-card reveal delay-1">
-        <div class="why-icon"><i class="fas fa-user-check"></i></div>
-        <h3>Expert Handlers</h3>
-        <p>Trained professionals who know every fabric type and how to treat them right.</p>
-      </div>
-      <div class="why-card reveal delay-2">
-        <div class="why-icon"><i class="fas fa-bolt"></i></div>
-        <h3>Lightning Fast</h3>
-        <p>Express service available for urgent needs — ready in as little as 24 hours.</p>
-      </div>
-      <div class="why-card reveal delay-3">
-        <div class="why-icon"><i class="fas fa-map-marker-alt"></i></div>
-        <h3>4 Locations</h3>
-        <p>Conveniently located across Dhaka — Mirpur, Gulshan, Dhanmondi & Chadd Uddan.</p>
-      </div>
-      <div class="why-card reveal delay-4">
-        <div class="why-icon"><i class="fas fa-mobile-alt"></i></div>
-        <h3>App-First</h3>
-        <p>Track your order in real-time through our smart mobile app, powered by Bubble Bot AI.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="bubblebot-section reveal">
-    <div class="bubblebot-card glass-panel">
-      <div class="bubblebot-glow"></div>
-      <div class="bubblebot-content">
-        <div class="bubblebot-badge"><i class="fas fa-robot"></i> AI Powered</div>
-        <h2>Meet <span class="gradient-text">Bubble Bot</span></h2>
-        <p>Your smart laundry assistant! Bubble Bot helps you place orders, track your clothes, find deals, and answer all your laundry questions — 24/7, instantly.</p>
-        <ul class="bubblebot-features">
-          <li><i class="fas fa-check-circle"></i> Instant order tracking</li>
-          <li><i class="fas fa-check-circle"></i> Promo suggestions</li>
-          <li><i class="fas fa-check-circle"></i> Fabric care tips</li>
-          <li><i class="fas fa-check-circle"></i> 24/7 live support</li>
-        </ul>
-        <button class="cta-btn primary-btn" onclick="openBubbleBot()"><i class="fas fa-comment-dots"></i> Chat with Bubble Bot</button>
-      </div>
-      <div class="bubblebot-img animate-float">
-        <img src="assets/logos/ai_chatbot.webp" alt="Bubble Bot AI" />
-      </div>
-    </div>
-  </div>
-
-  <div class="app-download-banner reveal" id="appBanner">
-    <div class="app-banner-glow"></div>
-    <div class="app-banner-content">
-      <div class="app-banner-badge">📱 Now Available</div>
-      <h2 class="app-banner-title">Download the <span class="gradient-text text-glow">EzzeWash App</span></h2>
-      <p>Experience the fastest, cleanest laundry booking experience right from your phone. Schedule pickups, track orders, chat with Bubble Bot, and unlock exclusive app-only deals!</p>
-      <div class="app-banner-features">
-        <span><i class="fas fa-robot"></i> Bubble Bot AI</span>
-        <span><i class="fas fa-map-marker-alt"></i> Live Tracking</span>
-        <span><i class="fas fa-tag"></i> Exclusive Deals</span>
-        <span><i class="fas fa-bell"></i> Smart Alerts</span>
-      </div>
-      <a href="https://drive.google.com/file/d/1HQc1uRENmjwhyBfJsyjPkUbipY2jP0Uh/view?usp=sharing" target="_blank" class="cta-btn download-btn pulse-btn">
-        <i class="fas fa-download"></i> Download App
-      </a>
-    </div>
-
-    <div class="app-showcase">
-  <div class="app-screen-wrap delay-1">
-    <img src="assets/screens/login.webp" alt="EzzeWash Login" class="app-screen" />
-    <div class="app-screen-title">Login</div>
-  </div>
-  <div class="app-screen-wrap delay-2">
-    <img src="assets/screens/home.webp" alt="EzzeWash Home" class="app-screen" />
-    <div class="app-screen-title">Home</div>
-  </div>
-  <div class="app-screen-wrap delay-3">
-    <img src="assets/screens/services.webp" alt="EzzeWash Services" class="app-screen" />
-    <div class="app-screen-title">Services</div>
-  </div>
-  <div class="app-screen-wrap delay-4">
-    <img src="assets/screens/settings.webp" alt="EzzeWash Settings" class="app-screen" />
-    <div class="app-screen-title">Settings</div>
-  </div>
-  <div class="app-screen-wrap delay-5">
-    <img src="assets/screens/chatbot.webp" alt="EzzeWash ChatBot" class="app-screen" />
-    <div class="app-screen-title">Bubble Bot</div>
-  </div>
-  <div class="app-screen-wrap delay-6">
-    <img src="assets/screens/order-history.webp" alt="EzzeWash Order History" class="app-screen" />
-    <div class="app-screen-title">History</div>
-  </div>
-  <div class="app-screen-wrap delay-7">
-    <img src="assets/screens/push-notification.webp" alt="EzzeWash Push Notification" class="app-screen" />
-    <div class="app-screen-title">Push Alerts</div>
-  </div>
-  <div class="app-screen-wrap delay-8">
-    <img src="assets/screens/in-app-notification.webp" alt="EzzeWash In App Notification" class="app-screen" />
-    <div class="app-screen-title">Notifications</div>
-  </div>
-</div>
-  </div>
-</section>
-
-<section class="section" id="order">
-  <div class="section-header center reveal">
-    <div class="section-badge"><i class="fas fa-shopping-cart"></i> Place Order</div>
-    <h2 class="section-title">Order in <span class="gradient-text">5 Easy Steps</span></h2>
-    <p class="section-sub">Get your clothes cleaned without leaving home</p>
-  </div>
-
-  <div class="order-wizard reveal" id="orderWizard">
-    <div class="order-steps">
-      <div class="order-step active" data-step="1"><div class="step-circle">1</div><span>Service</span></div>
-      <div class="order-step-line"></div>
-      <div class="order-step" data-step="2"><div class="step-circle">2</div><span>Store</span></div>
-      <div class="order-step-line"></div>
-      <div class="order-step" data-step="3"><div class="step-circle">3</div><span>Schedule</span></div>
-      <div class="order-step-line"></div>
-      <div class="order-step" data-step="4"><div class="step-circle">4</div><span>Quantity</span></div>
-      <div class="order-step-line"></div>
-      <div class="order-step" data-step="5"><div class="step-circle">5</div><span>Payment</span></div>
-    </div>
-
-    <div class="order-panel active" id="step1">
-      <h3 class="step-title">Select Your Service</h3>
-      <div class="service-select-grid" id="serviceSelectGrid"></div>
-      <div class="step-nav"><button class="cta-btn primary-btn" onclick="nextStep(1)">Continue <i class="fas fa-arrow-right"></i></button></div>
-    </div>
-
-    <div class="order-panel" id="step2">
-      <h3 class="step-title">Choose a Store</h3>
-      <div class="store-select-grid">
-        <div class="store-select-card" onclick="selectStore(this, 'Mirpur')">
-          <img src="assets/stores/mirpur.webp" alt="Mirpur" />
-          <div class="store-select-info"><h4>Ezzewash Mirpur</h4><p><i class="fas fa-map-marker-alt"></i> Mirpur, Dhaka</p></div>
+  <section class="section" id="home">
+    <div class="hero">
+      <div class="hero-bg-anim"></div>
+      <div class="hero-content">
+        <div class="hero-badge animate-fade-up delay-1"><i class="fas fa-star"></i> Bangladesh's First Online Laundry
+          System</div>
+        <h1 class="hero-title animate-fade-up delay-2">Fresh Clothes,<br /><span class="gradient-text">Zero
+            Hassle.</span></h1>
+        <p class="hero-sub animate-fade-up delay-3">Premium laundry & dry cleaning delivered to your door. Professional
+          care for every fabric, every time.</p>
+        <div class="hero-btns animate-fade-up delay-4">
+          <button class="cta-btn primary-btn" onclick="scrollToSection('order')"><i class="fas fa-tshirt"></i> Place
+            Order</button>
+          <button class="cta-btn outline-btn" onclick="scrollToSection('services')"><i class="fas fa-sparkles"></i> Our
+            Services</button>
         </div>
-        <div class="store-select-card" onclick="selectStore(this, 'Gulshan')">
-          <img src="assets/stores/gulshan.webp" alt="Gulshan" />
-          <div class="store-select-info"><h4>Ezzewash Gulshan</h4><p><i class="fas fa-map-marker-alt"></i> Gulshan, Dhaka</p></div>
-        </div>
-        <div class="store-select-card" onclick="selectStore(this, 'Dhanmondi')">
-          <img src="assets/stores/dhanmondi.webp" alt="Dhanmondi" />
-          <div class="store-select-info"><h4>Ezzewash Dhanmondi</h4><p><i class="fas fa-map-marker-alt"></i> Dhanmondi, Dhaka</p></div>
-        </div>
-        <div class="store-select-card" onclick="selectStore(this, 'Chadd Uddan')">
-          <img src="assets/stores/chadd_uddan.webp" alt="Chadd Uddan" />
-          <div class="store-select-info"><h4>Ezzewash Chadd Uddan</h4><p><i class="fas fa-map-marker-alt"></i> Chadd Uddan, Dhaka</p></div>
+        <div class="hero-stats animate-fade-up delay-5">
+          <div class="stat"><span class="stat-num" data-target="500">0</span><span>+</span>
+            <p>Happy Customers</p>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num" data-target="4">0</span><span>+</span>
+            <p>Store Locations</p>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num" data-target="9">0</span><span>+</span>
+            <p>Services Offered</p>
+          </div>
         </div>
       </div>
-      <div class="step-nav">
-        <button class="cta-btn outline-btn" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
-        <button class="cta-btn primary-btn" onclick="nextStep(2)">Continue <i class="fas fa-arrow-right"></i></button>
+      <div class="hero-image animate-float delay-3">
+        <div class="hero-img-wrap">
+          <img src="assets/logos/hero-image.gif" alt="EzzeWash Banner" fetchpriority="high" />
+          <div class="hero-img-glow"></div>
+        </div>
       </div>
     </div>
 
-    <div class="order-panel" id="step3">
-      <h3 class="step-title">Pickup or Delivery?</h3>
-      <div class="schedule-type">
-        <div class="schedule-option active" onclick="selectScheduleType(this, 'pickup')">
-          <i class="fas fa-store"></i><h4>Store Pickup</h4><p>Bring to store, we'll call when ready</p>
+    <div class="features-strip animate-fade-up delay-2">
+      <div class="feature-item"><i class="fas fa-truck"></i><span>Free Pickup & Delivery</span></div>
+      <div class="feature-item"><i class="fas fa-clock"></i><span>24hr Express Service</span></div>
+      <div class="feature-item"><i class="fas fa-shield-alt"></i><span>Fabric Protection</span></div>
+      <div class="feature-item"><i class="fas fa-leaf"></i><span>Eco-Friendly Products</span></div>
+      <div class="feature-item"><i class="fas fa-star"></i><span>5-Star Quality</span></div>
+    </div>
+
+    <div class="why-section">
+      <div class="section-header center">
+        <div class="section-badge">Why EzzeWash?</div>
+        <h2 class="section-title">We Care About <span class="gradient-text">Every Thread</span></h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card reveal delay-1">
+          <div class="why-icon"><i class="fas fa-user-check"></i></div>
+          <h3>Expert Handlers</h3>
+          <p>Trained professionals who know every fabric type and how to treat them right.</p>
         </div>
-        <div class="schedule-option" onclick="selectScheduleType(this, 'delivery')">
-          <i class="fas fa-truck"></i><h4>Door Delivery</h4><p>We pick up & deliver to your door</p>
+        <div class="why-card reveal delay-2">
+          <div class="why-icon"><i class="fas fa-bolt"></i></div>
+          <h3>Lightning Fast</h3>
+          <p>Express service available for urgent needs — ready in as little as 24 hours.</p>
+        </div>
+        <div class="why-card reveal delay-3">
+          <div class="why-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h3>4 Locations</h3>
+          <p>Conveniently located across Dhaka — Mirpur, Gulshan, Dhanmondi & Chadd Uddan.</p>
+        </div>
+        <div class="why-card reveal delay-4">
+          <div class="why-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h3>App-First</h3>
+          <p>Track your order in real-time through our smart mobile app, powered by Bubble Bot AI.</p>
         </div>
       </div>
-      <div class="schedule-form">
-        <div class="form-row">
+    </div>
+
+    <div class="bubblebot-section reveal">
+      <div class="bubblebot-card glass-panel">
+        <div class="bubblebot-glow"></div>
+        <div class="bubblebot-content">
+          <div class="bubblebot-badge"><i class="fas fa-robot"></i> AI Powered</div>
+          <h2>Meet <span class="gradient-text">Bubble Bot</span></h2>
+          <p>Your smart laundry assistant! Bubble Bot helps you place orders, track your clothes, find deals, and answer
+            all your laundry questions — 24/7, instantly.</p>
+          <ul class="bubblebot-features">
+            <li><i class="fas fa-check-circle"></i> Instant order tracking</li>
+            <li><i class="fas fa-check-circle"></i> Promo suggestions</li>
+            <li><i class="fas fa-check-circle"></i> Fabric care tips</li>
+            <li><i class="fas fa-check-circle"></i> 24/7 live support</li>
+          </ul>
+          <button class="cta-btn primary-btn" onclick="openBubbleBot()"><i class="fas fa-comment-dots"></i> Chat with
+            Bubble Bot</button>
+        </div>
+        <div class="bubblebot-img animate-float">
+          <img src="assets/logos/ai_chatbot.webp" alt="Bubble Bot AI" loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </div>
+
+    <div class="app-download-banner reveal" id="appBanner">
+      <div class="app-banner-glow"></div>
+      <div class="app-banner-content">
+        <div class="app-banner-badge">📱 Now Available</div>
+        <h2 class="app-banner-title">Download the <span class="gradient-text text-glow">EzzeWash App</span></h2>
+        <p>Experience the fastest, cleanest laundry booking experience right from your phone. Schedule pickups, track
+          orders, chat with Bubble Bot, and unlock exclusive app-only deals!</p>
+        <div class="app-banner-features">
+          <span><i class="fas fa-robot"></i> Bubble Bot AI</span>
+          <span><i class="fas fa-map-marker-alt"></i> Live Tracking</span>
+          <span><i class="fas fa-tag"></i> Exclusive Deals</span>
+          <span><i class="fas fa-bell"></i> Smart Alerts</span>
+        </div>
+        <a href="https://drive.google.com/file/d/1HQc1uRENmjwhyBfJsyjPkUbipY2jP0Uh/view?usp=sharing" target="_blank"
+          class="cta-btn download-btn pulse-btn">
+          <i class="fas fa-download"></i> Download App
+        </a>
+      </div>
+
+      <div class="app-showcase">
+        <div class="app-screen-wrap delay-1">
+          <img src="assets/screens/login.webp" alt="EzzeWash Login" class="app-screen" loading="lazy"
+            decoding="async" />
+          <div class="app-screen-title">Login</div>
+        </div>
+        <div class="app-screen-wrap delay-2">
+          <img src="assets/screens/home.webp" alt="EzzeWash Home" class="app-screen" loading="lazy" decoding="async" />
+          <div class="app-screen-title">Home</div>
+        </div>
+        <div class="app-screen-wrap delay-3">
+          <img src="assets/screens/services.webp" alt="EzzeWash Services" class="app-screen" loading="lazy"
+            decoding="async" />
+          <div class="app-screen-title">Services</div>
+        </div>
+        <div class="app-screen-wrap delay-4">
+          <img src="assets/screens/settings.webp" alt="EzzeWash Settings" class="app-screen" loading="lazy"
+            decoding="async" />
+          <div class="app-screen-title">Settings</div>
+        </div>
+        <div class="app-screen-wrap delay-5">
+          <img src="assets/screens/chatbot.webp" alt="EzzeWash ChatBot" class="app-screen" loading="lazy"
+            decoding="async" />
+          <div class="app-screen-title">Bubble Bot</div>
+        </div>
+        <div class="app-screen-wrap delay-6">
+          <img src="assets/screens/order-history.webp" alt="EzzeWash Order History" class="app-screen" loading="lazy"
+            decoding="async" />
+          <div class="app-screen-title">History</div>
+        </div>
+        <div class="app-screen-wrap delay-7">
+          <img src="assets/screens/push-notification.webp" alt="EzzeWash Push Notification" class="app-screen"
+            loading="lazy" decoding="async" />
+          <div class="app-screen-title">Push Alerts</div>
+        </div>
+        <div class="app-screen-wrap delay-8">
+          <img src="assets/screens/in-app-notification.webp" alt="EzzeWash In App Notification" class="app-screen"
+            loading="lazy" decoding="async" />
+          <div class="app-screen-title">Notifications</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="order">
+    <div class="section-header center reveal">
+      <div class="section-badge"><i class="fas fa-shopping-cart"></i> Place Order</div>
+      <h2 class="section-title">Order in <span class="gradient-text">5 Easy Steps</span></h2>
+      <p class="section-sub">Get your clothes cleaned without leaving home</p>
+    </div>
+
+    <div class="order-wizard reveal" id="orderWizard">
+      <div class="order-steps">
+        <div class="order-step active" data-step="1">
+          <div class="step-circle">1</div><span>Service</span>
+        </div>
+        <div class="order-step-line"></div>
+        <div class="order-step" data-step="2">
+          <div class="step-circle">2</div><span>Store</span>
+        </div>
+        <div class="order-step-line"></div>
+        <div class="order-step" data-step="3">
+          <div class="step-circle">3</div><span>Schedule</span>
+        </div>
+        <div class="order-step-line"></div>
+        <div class="order-step" data-step="4">
+          <div class="step-circle">4</div><span>Quantity</span>
+        </div>
+        <div class="order-step-line"></div>
+        <div class="order-step" data-step="5">
+          <div class="step-circle">5</div><span>Payment</span>
+        </div>
+      </div>
+
+      <div class="order-panel active" id="step1">
+        <h3 class="step-title">Select Your Service</h3>
+        <div class="service-select-grid" id="serviceSelectGrid"></div>
+        <div class="step-nav"><button class="cta-btn primary-btn" onclick="nextStep(1)">Continue <i
+              class="fas fa-arrow-right"></i></button></div>
+      </div>
+
+      <div class="order-panel" id="step2">
+        <h3 class="step-title">Choose a Store</h3>
+        <div class="store-select-grid">
+          <div class="store-select-card" onclick="selectStore(this, 'Mirpur')">
+            <img src="assets/stores/mirpur.webp" alt="Mirpur" loading="lazy" decoding="async" />
+            <div class="store-select-info">
+              <h4>Ezzewash Mirpur</h4>
+              <p><i class="fas fa-map-marker-alt"></i> Mirpur, Dhaka</p>
+            </div>
+          </div>
+          <div class="store-select-card" onclick="selectStore(this, 'Gulshan')">
+            <img src="assets/stores/gulshan.webp" alt="Gulshan" loading="lazy" decoding="async" />
+            <div class="store-select-info">
+              <h4>Ezzewash Gulshan</h4>
+              <p><i class="fas fa-map-marker-alt"></i> Gulshan, Dhaka</p>
+            </div>
+          </div>
+          <div class="store-select-card" onclick="selectStore(this, 'Dhanmondi')">
+            <img src="assets/stores/dhanmondi.webp" alt="Dhanmondi" loading="lazy" decoding="async" />
+            <div class="store-select-info">
+              <h4>Ezzewash Dhanmondi</h4>
+              <p><i class="fas fa-map-marker-alt"></i> Dhanmondi, Dhaka</p>
+            </div>
+          </div>
+          <div class="store-select-card" onclick="selectStore(this, 'Chadd Uddan')">
+            <img src="assets/stores/chadd_uddan.webp" alt="Chadd Uddan" loading="lazy" decoding="async" />
+            <div class="store-select-info">
+              <h4>Ezzewash Chadd Uddan</h4>
+              <p><i class="fas fa-map-marker-alt"></i> Chadd Uddan, Dhaka</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-nav">
+          <button class="cta-btn outline-btn" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
+          <button class="cta-btn primary-btn" onclick="nextStep(2)">Continue <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <div class="order-panel" id="step3">
+        <h3 class="step-title">Pickup or Delivery?</h3>
+        <div class="schedule-type">
+          <div class="schedule-option active" onclick="selectScheduleType(this, 'pickup')">
+            <i class="fas fa-store"></i>
+            <h4>Store Pickup</h4>
+            <p>Bring to store, we'll call when ready</p>
+          </div>
+          <div class="schedule-option" onclick="selectScheduleType(this, 'delivery')">
+            <i class="fas fa-truck"></i>
+            <h4>Door Delivery</h4>
+            <p>We pick up & deliver to your door</p>
+          </div>
+        </div>
+        <div class="schedule-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-calendar"></i> Date</label>
+              <input type="date" id="scheduleDate" class="form-input" />
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-clock"></i> Time Slot</label>
+              <select class="form-input" id="scheduleTime">
+                <option>9:00 AM – 11:00 AM</option>
+                <option>11:00 AM – 1:00 PM</option>
+                <option>1:00 PM – 3:00 PM</option>
+                <option>3:00 PM – 5:00 PM</option>
+                <option>5:00 PM – 7:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group delivery-address hidden" id="deliveryAddressGroup">
+            <label><i class="fas fa-home"></i> Delivery Address</label>
+            <input type="text" class="form-input" placeholder="Enter your full address..." />
+          </div>
+        </div>
+        <div class="step-nav">
+          <button class="cta-btn outline-btn" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Back</button>
+          <button class="cta-btn primary-btn" onclick="nextStep(3)">Continue <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <div class="order-panel" id="step4">
+        <h3 class="step-title">Quantity & Promo</h3>
+        <div class="quantity-section">
+          <div class="qty-item">
+            <span class="qty-label">Number of Items</span>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="changeQty(-1)">−</button>
+              <span id="qtyValue">1</span>
+              <button class="qty-btn" onclick="changeQty(1)">+</button>
+            </div>
+          </div>
+          <div class="qty-item">
+            <span class="qty-label">Weight (kg)</span>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="changeWeight(-0.5)">−</button>
+              <span id="weightValue">1.0</span>
+              <button class="qty-btn" onclick="changeWeight(0.5)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="promo-apply">
+          <h4><i class="fas fa-tag"></i> Have a Promo Code?</h4>
+          <div class="promo-input-row">
+            <input type="text" id="promoInput" class="form-input" placeholder="Enter promo code..." />
+            <button class="cta-btn primary-btn" onclick="applyPromo()">Apply</button>
+          </div>
+          <div id="promoFeedback" class="promo-feedback"></div>
+          <div class="promo-chips">
+            <span class="promo-chip" onclick="fillPromo('BLUELOCK10')">BLUELOCK10</span>
+            <span class="promo-chip" onclick="fillPromo('THUNDER15')">THUNDER15</span>
+            <span class="promo-chip" onclick="fillPromo('DEVSPECIAL')">DEVSPECIAL</span>
+            <span class="promo-chip" onclick="fillPromo('BOISHAKH20')">BOISHAKH20</span>
+          </div>
+        </div>
+        <div class="order-summary-mini" id="orderSummaryMini">
+          <div class="summary-row"><span>Service</span><span id="sumService">—</span></div>
+          <div class="summary-row"><span>Store</span><span id="sumStore">—</span></div>
+          <div class="summary-row"><span>Items</span><span id="sumItems">1</span></div>
+          <div class="summary-row"><span>Subtotal</span><span id="sumSubtotal">৳0</span></div>
+          <div class="summary-row discount hidden" id="discountRow"><span>Discount</span><span
+              id="sumDiscount">−৳0</span></div>
+          <div class="summary-row total"><span>Total</span><span id="sumTotal">৳0</span></div>
+        </div>
+        <div class="step-nav">
+          <button class="cta-btn outline-btn" onclick="prevStep(4)"><i class="fas fa-arrow-left"></i> Back</button>
+          <button class="cta-btn primary-btn" onclick="nextStep(4)">Continue <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <div class="order-panel" id="step5">
+        <h3 class="step-title">Payment Method</h3>
+        <div class="payment-grid">
+          <div class="payment-card active" onclick="selectPayment(this, 'cod')">
+            <i class="fas fa-money-bill-wave"></i>
+            <h4>Cash on Delivery</h4>
+            <p>Pay when we deliver</p>
+          </div>
+          <div class="payment-card" onclick="selectPayment(this, 'bkash')">
+            <i class="fas fa-mobile-alt"></i>
+            <h4>bKash</h4>
+            <p>Mobile banking</p>
+          </div>
+          <div class="payment-card" onclick="selectPayment(this, 'card')">
+            <i class="fas fa-credit-card"></i>
+            <h4>Card Payment</h4>
+            <p>Visa / Mastercard</p>
+          </div>
+          <div class="payment-card" onclick="selectPayment(this, 'nagad')">
+            <i class="fas fa-wallet"></i>
+            <h4>Nagad</h4>
+            <p>Digital wallet</p>
+          </div>
+        </div>
+        <div class="card-fields hidden" id="cardFields">
           <div class="form-group">
-            <label><i class="fas fa-calendar"></i> Date</label>
-            <input type="date" id="scheduleDate" class="form-input" />
+            <label>Card Number</label>
+            <input type="text" class="form-input" placeholder="•••• •••• •••• ••••" maxlength="19" />
           </div>
-          <div class="form-group">
-            <label><i class="fas fa-clock"></i> Time Slot</label>
-            <select class="form-input" id="scheduleTime">
-              <option>9:00 AM – 11:00 AM</option>
-              <option>11:00 AM – 1:00 PM</option>
-              <option>1:00 PM – 3:00 PM</option>
-              <option>3:00 PM – 5:00 PM</option>
-              <option>5:00 PM – 7:00 PM</option>
-            </select>
+          <div class="form-row">
+            <div class="form-group"><label>Expiry</label><input type="text" class="form-input" placeholder="MM/YY" />
+            </div>
+            <div class="form-group"><label>CVV</label><input type="text" class="form-input" placeholder="•••" /></div>
           </div>
         </div>
-        <div class="form-group delivery-address hidden" id="deliveryAddressGroup">
-          <label><i class="fas fa-home"></i> Delivery Address</label>
-          <input type="text" class="form-input" placeholder="Enter your full address..." />
+        <div class="final-summary" id="finalSummary"></div>
+        <div class="step-nav">
+          <button class="cta-btn outline-btn" onclick="prevStep(5)"><i class="fas fa-arrow-left"></i> Back</button>
+          <button class="cta-btn primary-btn big-order-btn" onclick="placeOrder()"><i class="fas fa-check-circle"></i>
+            Place Order</button>
         </div>
       </div>
-      <div class="step-nav">
-        <button class="cta-btn outline-btn" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Back</button>
-        <button class="cta-btn primary-btn" onclick="nextStep(3)">Continue <i class="fas fa-arrow-right"></i></button>
+
+      <div class="order-panel" id="stepSuccess">
+        <div class="success-screen">
+          <div class="success-animation">
+            <div class="success-circle"><i class="fas fa-check"></i></div>
+            <div class="success-ripple"></div>
+            <div class="success-ripple delay"></div>
+          </div>
+          <h2 class="success-title">Order Placed! 🎉</h2>
+          <p class="success-sub">Your laundry is in good hands. We'll notify you every step of the way!</p>
+          <div class="success-order-id">Order ID: <strong id="orderId"></strong></div>
+          <div class="success-details" id="successDetails"></div>
+          <button class="cta-btn primary-btn" onclick="resetOrder()">Place Another Order</button>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="order-panel" id="step4">
-      <h3 class="step-title">Quantity & Promo</h3>
-      <div class="quantity-section">
-        <div class="qty-item">
-          <span class="qty-label">Number of Items</span>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty(-1)">−</button>
-            <span id="qtyValue">1</span>
-            <button class="qty-btn" onclick="changeQty(1)">+</button>
-          </div>
+  <section class="section" id="services">
+    <div class="section-header center reveal">
+      <div class="section-badge"><i class="fas fa-concierge-bell"></i> What We Offer</div>
+      <h2 class="section-title">Our <span class="gradient-text">Premium Services</span></h2>
+      <p class="section-sub">Professional care for every type of fabric and garment</p>
+    </div>
+    <div class="services-grid" id="servicesGrid"></div>
+  </section>
+
+  <section class="section" id="stores">
+    <div class="section-header center reveal">
+      <div class="section-badge"><i class="fas fa-map-marker-alt"></i> Find Us</div>
+      <h2 class="section-title">Our <span class="gradient-text">Store Locations</span></h2>
+      <p class="section-sub">Four convenient locations across Dhaka city</p>
+    </div>
+    <div class="stores-grid">
+      <div class="store-card reveal">
+        <div class="store-img-wrap"><img src="assets/stores/mirpur.webp" alt="Mirpur Store" loading="lazy"
+            decoding="async" />
+          <div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div>
         </div>
-        <div class="qty-item">
-          <span class="qty-label">Weight (kg)</span>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeWeight(-0.5)">−</button>
-            <span id="weightValue">1.0</span>
-            <button class="qty-btn" onclick="changeWeight(0.5)">+</button>
-          </div>
-        </div>
-      </div>
-      <div class="promo-apply">
-        <h4><i class="fas fa-tag"></i> Have a Promo Code?</h4>
-        <div class="promo-input-row">
-          <input type="text" id="promoInput" class="form-input" placeholder="Enter promo code..." />
-          <button class="cta-btn primary-btn" onclick="applyPromo()">Apply</button>
-        </div>
-        <div id="promoFeedback" class="promo-feedback"></div>
-        <div class="promo-chips">
-          <span class="promo-chip" onclick="fillPromo('BLUELOCK10')">BLUELOCK10</span>
-          <span class="promo-chip" onclick="fillPromo('THUNDER15')">THUNDER15</span>
-          <span class="promo-chip" onclick="fillPromo('DEVSPECIAL')">DEVSPECIAL</span>
-          <span class="promo-chip" onclick="fillPromo('BOISHAKH20')">BOISHAKH20</span>
+        <div class="store-info">
+          <h3>Ezzewash Mirpur</h3>
+          <p class="store-addr"><i class="fas fa-location-dot"></i> House 12, Road 4, Mirpur-10, Dhaka</p>
+          <p class="store-phone"><i class="fas fa-phone"></i> +8801616043914</p>
+          <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
+          <div class="store-tags"><span class="store-tag">Wash & Fold</span><span class="store-tag">Dry
+              Clean</span><span class="store-tag">Express</span></div>
+          <a href="https://maps.google.com" target="_blank" class="store-map-btn"><i class="fas fa-directions"></i> Get
+            Directions</a>
         </div>
       </div>
-      <div class="order-summary-mini" id="orderSummaryMini">
-        <div class="summary-row"><span>Service</span><span id="sumService">—</span></div>
-        <div class="summary-row"><span>Store</span><span id="sumStore">—</span></div>
-        <div class="summary-row"><span>Items</span><span id="sumItems">1</span></div>
-        <div class="summary-row"><span>Subtotal</span><span id="sumSubtotal">৳0</span></div>
-        <div class="summary-row discount hidden" id="discountRow"><span>Discount</span><span id="sumDiscount">−৳0</span></div>
-        <div class="summary-row total"><span>Total</span><span id="sumTotal">৳0</span></div>
+      <div class="store-card reveal delay-1">
+        <div class="store-img-wrap"><img src="assets/stores/gulshan.webp" alt="Gulshan Store" loading="lazy"
+            decoding="async" />
+          <div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div>
+        </div>
+        <div class="store-info">
+          <h3>Ezzewash Gulshan</h3>
+          <p class="store-addr"><i class="fas fa-location-dot"></i> Plot 7, Avenue 2, Gulshan-2, Dhaka</p>
+          <p class="store-phone"><i class="fas fa-phone"></i> +8801516503532</p>
+          <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
+          <div class="store-tags"><span class="store-tag">Suit Wash</span><span class="store-tag">Dry Clean</span><span
+              class="store-tag">Delicate</span></div>
+          <a href="https://maps.google.com" target="_blank" class="store-map-btn"><i class="fas fa-directions"></i> Get
+            Directions</a>
+        </div>
       </div>
-      <div class="step-nav">
-        <button class="cta-btn outline-btn" onclick="prevStep(4)"><i class="fas fa-arrow-left"></i> Back</button>
-        <button class="cta-btn primary-btn" onclick="nextStep(4)">Continue <i class="fas fa-arrow-right"></i></button>
+      <div class="store-card reveal delay-2">
+        <div class="store-img-wrap"><img src="assets/stores/dhanmondi.webp" alt="Dhanmondi Store" loading="lazy"
+            decoding="async" />
+          <div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div>
+        </div>
+        <div class="store-info">
+          <h3>Ezzewash Dhanmondi</h3>
+          <p class="store-addr"><i class="fas fa-location-dot"></i> House 35, Road 27, Dhanmondi, Dhaka</p>
+          <p class="store-phone"><i class="fas fa-phone"></i> +8801401439995</p>
+          <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
+          <div class="store-tags"><span class="store-tag">Iron Press</span><span class="store-tag">Steam</span><span
+              class="store-tag">Shoe Clean</span></div>
+          <a href="https://maps.google.com" target="_blank" class="store-map-btn"><i class="fas fa-directions"></i> Get
+            Directions</a>
+        </div>
+      </div>
+      <div class="store-card reveal delay-3">
+        <div class="store-img-wrap"><img src="assets/stores/chadd_uddan.webp" alt="Chadd Uddan Store" loading="lazy"
+            decoding="async" />
+          <div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div>
+        </div>
+        <div class="store-info">
+          <h3>Ezzewash Chadd Uddan</h3>
+          <p class="store-addr"><i class="fas fa-location-dot"></i> Road 1, Chadd Uddan Housing, Mohammadpur,Dhaka</p>
+          <p class="store-phone"><i class="fas fa-phone"></i> +8801522135401</p>
+          <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
+          <div class="store-tags"><span class="store-tag">All Services</span><span class="store-tag">Parking</span><span
+              class="store-tag">24/7</span></div>
+          <a href="https://maps.app.goo.gl/jt5TfnefD14641HR8" target="_blank" class="store-map-btn"><i
+              class="fas fa-directions"></i> Get Directions</a>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="order-panel" id="step5">
-      <h3 class="step-title">Payment Method</h3>
-      <div class="payment-grid">
-        <div class="payment-card active" onclick="selectPayment(this, 'cod')">
-          <i class="fas fa-money-bill-wave"></i>
-          <h4>Cash on Delivery</h4>
-          <p>Pay when we deliver</p>
+  <section class="section" id="promos">
+    <div class="section-header center reveal">
+      <div class="section-badge"><i class="fas fa-tags"></i> Special Offers</div>
+      <h2 class="section-title">Deals & <span class="gradient-text">Promotions</span></h2>
+      <p class="section-sub">Grab exclusive discounts — scroll to discover all offers!</p>
+    </div>
+    <div class="promos-scroll-wrap reveal">
+      <button class="promo-scroll-btn left" onclick="scrollPromos(-1)"><i class="fas fa-chevron-left"></i></button>
+      <div class="promos-scroll-track" id="promoTrack"></div>
+      <button class="promo-scroll-btn right" onclick="scrollPromos(1)"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <section class="section" id="terms">
+    <div class="section-header center reveal">
+      <div class="section-badge"><i class="fas fa-file-contract"></i> Legal</div>
+      <h2 class="section-title">Terms & <span class="gradient-text">Privacy Policy</span></h2>
+    </div>
+    <div class="terms-container reveal">
+      <div class="terms-tabs">
+        <button class="terms-tab active" onclick="switchTab(this, 'termsContent')">Terms of Service</button>
+        <button class="terms-tab" onclick="switchTab(this, 'privacyContent')">Privacy Policy</button>
+        <button class="terms-tab" onclick="switchTab(this, 'refundContent')">Refund Policy</button>
+      </div>
+      <div class="terms-body glass-panel" id="termsContent">
+        <div class="terms-section">
+          <h3><i class="fas fa-handshake"></i> 1. Service Agreement</h3>
+          <p>By placing an order with EzzeWash, you agree to our service terms. We reserve the right to refuse service
+            for items that are heavily soiled, damaged beyond normal care, or present a risk to our equipment or staff.
+          </p>
         </div>
-        <div class="payment-card" onclick="selectPayment(this, 'bkash')">
-          <i class="fas fa-mobile-alt"></i>
-          <h4>bKash</h4>
-          <p>Mobile banking</p>
+        <div class="terms-section">
+          <h3><i class="fas fa-tshirt"></i> 2. Garment Care & Liability</h3>
+          <p>EzzeWash takes utmost care with every garment. However, we are not responsible for pre-existing damage,
+            fading, or shrinkage due to the fabric's inherent nature. Customers must declare valuable or delicate items
+            before submission.</p>
         </div>
-        <div class="payment-card" onclick="selectPayment(this, 'card')">
-          <i class="fas fa-credit-card"></i>
-          <h4>Card Payment</h4>
-          <p>Visa / Mastercard</p>
+        <div class="terms-section">
+          <h3><i class="fas fa-clock"></i> 3. Turnaround Time</h3>
+          <p>Standard service: 2–3 business days. Express service: 24 hours (subject to availability). EzzeWash will
+            notify customers of delays. We are not liable for delays caused by force majeure.</p>
         </div>
-        <div class="payment-card" onclick="selectPayment(this, 'nagad')">
-          <i class="fas fa-wallet"></i>
-          <h4>Nagad</h4>
-          <p>Digital wallet</p>
+        <div class="terms-section">
+          <h3><i class="fas fa-box"></i> 4. Lost or Damaged Items</h3>
+          <p>In the rare event of loss or significant damage caused by our negligence, EzzeWash will offer compensation
+            up to 10× the service charge paid, not exceeding the item's declared value.</p>
+        </div>
+        <div class="terms-section">
+          <h3><i class="fas fa-tag"></i> 5. Pricing & Promo Codes</h3>
+          <p>Prices are subject to change without prior notice. Promo codes cannot be combined and are valid for stated
+            periods only. Expired codes will not be honored.</p>
+        </div>
+        <div class="terms-section">
+          <h3><i class="fas fa-truck"></i> 6. Pickup & Delivery</h3>
+          <p>Delivery is available within specific zones in Dhaka. Delivery charges may apply. EzzeWash reserves the
+            right to reschedule pickups or deliveries with prior notification.</p>
         </div>
       </div>
-      <div class="card-fields hidden" id="cardFields">
-        <div class="form-group">
-          <label>Card Number</label>
-          <input type="text" class="form-input" placeholder="•••• •••• •••• ••••" maxlength="19" />
+      <div class="terms-body glass-panel hidden" id="privacyContent">
+        <div class="terms-section">
+          <h3><i class="fas fa-lock"></i> 1. Data Collection</h3>
+          <p>EzzeWash collects name, phone number, address, and payment information necessary to fulfill your orders. We
+            do not collect sensitive data beyond what is required for our services.</p>
         </div>
+        <div class="terms-section">
+          <h3><i class="fas fa-database"></i> 2. Data Storage & Security</h3>
+          <p>All personal data is stored on encrypted servers. We use industry-standard SSL/TLS encryption for data in
+            transit. Your data is never sold to third parties.</p>
+        </div>
+        <div class="terms-section">
+          <h3><i class="fas fa-share-alt"></i> 3. Data Sharing</h3>
+          <p>We may share your delivery address with our logistics partners solely for order fulfillment. Payment data
+            is handled by PCI-compliant payment processors and is never stored on our servers.</p>
+        </div>
+        <div class="terms-section">
+          <h3><i class="fas fa-user-edit"></i> 4. Your Rights</h3>
+          <p>You have the right to request access, correction, or deletion of your personal data. Contact us at
+            privacy@ezzewash.com to exercise these rights.</p>
+        </div>
+        <div class="terms-section">
+          <h3><i class="fas fa-cookie"></i> 5. Cookies</h3>
+          <p>Our website uses cookies to improve user experience and analyze traffic. You may disable cookies in your
+            browser, though some features may be affected.</p>
+        </div>
+      </div>
+      <div class="terms-body glass-panel hidden" id="refundContent">
+        <div class="terms-section">
+          <h3><i class="fas fa-undo"></i> 1. Refund Eligibility</h3>
+          <p>Refunds are available if: (a) we fail to complete the service within the agreed timeframe, (b) items are
+            lost or significantly damaged due to our negligence, or (c) incorrect service was applied.</p>
+        </div>
+        <div class="terms-section">
+          <h3><i class="fas fa-calendar-times"></i> 2. Cancellation Policy</h3>
+          <p>Orders may be cancelled free of charge up to 2 hours before the scheduled pickup. Cancellations after
+            pickup has occurred will incur a 20% processing fee.</p>
+        </div>
+        <div class="terms-section">
+          <h3><i class="fas fa-money-check"></i> 3. Refund Process</h3>
+          <p>Approved refunds will be processed within 5–7 business days. Card refunds will appear on your statement
+            within 7–10 banking days. bKash/Nagad refunds are typically instant upon approval.</p>
+        </div>
+        <div class="terms-section">
+          <h3><i class="fas fa-envelope"></i> 4. How to Request</h3>
+          <p>Contact us at refunds@ezzewash.com or call our helpline within 48 hours of delivery with your order ID and
+            description of the issue. Include photos of damaged items if applicable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="help">
+    <div class="section-header center reveal">
+      <div class="section-badge"><i class="fas fa-headset"></i> We're Here</div>
+      <h2 class="section-title">Help & <span class="gradient-text">Support</span></h2>
+      <p class="section-sub">Got questions? We've got answers — anytime, anywhere.</p>
+    </div>
+    <div class="help-grid">
+      <div class="help-contact-cards reveal delay-1">
+        <div class="help-card">
+          <div class="help-icon"><i class="fas fa-phone-alt"></i></div>
+          <h3>Call Us</h3>
+          <p>+8801401439995</p><span>Mon–Sat, 8AM–8PM</span><a href="tel:+8801401439995" class="help-action-btn">Call
+            Now</a>
+        </div>
+        <div class="help-card">
+          <div class="help-icon"><i class="fab fa-whatsapp"></i></div>
+          <h3>WhatsApp</h3>
+          <p>+8801516503532</p><span>Quick replies 24/7</span><a href="https://wa.me/+8801516503532" target="_blank"
+            class="help-action-btn">Chat on WhatsApp</a>
+        </div>
+        <div class="help-card">
+          <div class="help-icon"><i class="fas fa-envelope"></i></div>
+          <h3>Email</h3>
+          <p>washezze@gmail.com</p><span>Reply within 24 hours</span><a href="mailto:washezze@gmail.com"
+            class="help-action-btn">Send Email</a>
+        </div>
+        <div class="help-card bubblebot-help-card" onclick="openBubbleBot()">
+          <div class="help-icon ai-icon"><i class="fas fa-robot"></i></div>
+          <h3>Bubble Bot</h3>
+          <p>AI-powered instant help</p>
+          <span>Available 24/7 always</span>
+          <button class="help-action-btn bot-btn">Chat Now</button>
+        </div>
+      </div>
+      <div class="faq-section reveal delay-2">
+        <h3 class="faq-title">Frequently Asked Questions</h3>
+        <div class="faq-list" id="faqList"></div>
+      </div>
+    </div>
+    <div class="contact-form-section reveal glass-panel">
+      <h3>Send Us a Message</h3>
+      <div class="contact-form">
         <div class="form-row">
-          <div class="form-group"><label>Expiry</label><input type="text" class="form-input" placeholder="MM/YY" /></div>
-          <div class="form-group"><label>CVV</label><input type="text" class="form-input" placeholder="•••" /></div>
+          <div class="form-group"><label>Your Name</label><input type="text" class="form-input"
+              placeholder="e.g. Rahim Ahmed" /></div>
+          <div class="form-group"><label>Phone / Email</label><input type="text" class="form-input"
+              placeholder="Your contact info" /></div>
+        </div>
+        <div class="form-group"><label>Subject</label><select class="form-input">
+            <option>Order Issue</option>
+            <option>Billing</option>
+            <option>Damaged Item</option>
+            <option>Lost Item</option>
+            <option>General Inquiry</option>
+            <option>Feedback</option>
+          </select></div>
+        <div class="form-group"><label>Message</label><textarea class="form-input form-textarea"
+            placeholder="Describe your issue in detail..."></textarea></div>
+        <button class="cta-btn primary-btn" onclick="submitContactForm()"><i class="fas fa-paper-plane"></i> Send
+          Message</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-glow"></div>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logos/logo.webp" alt="EzzeWash" class="footer-logo" loading="lazy" decoding="async" />
+        <span class="footer-logo-text">EzzeWash</span>
+        <p class="footer-tagline">Bangladesh's most trusted laundry & dry cleaning service. Clean clothes, happy life.
+        </p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-tiktok"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
-      <div class="final-summary" id="finalSummary"></div>
-      <div class="step-nav">
-        <button class="cta-btn outline-btn" onclick="prevStep(5)"><i class="fas fa-arrow-left"></i> Back</button>
-        <button class="cta-btn primary-btn big-order-btn" onclick="placeOrder()"><i class="fas fa-check-circle"></i> Place Order</button>
+      <div class="footer-links-col">
+        <h4>Quick Links</h4><a href="#home" onclick="scrollToSection('home')">Home</a><a href="#order"
+          onclick="scrollToSection('order')">Order</a><a href="#services"
+          onclick="scrollToSection('services')">Services</a><a href="#stores"
+          onclick="scrollToSection('stores')">Stores</a>
+      </div>
+      <div class="footer-links-col">
+        <h4>More</h4><a href="#promos" onclick="scrollToSection('promos')">Promotions</a><a href="#terms"
+          onclick="scrollToSection('terms')">Terms & Policy</a><a href="#help" onclick="scrollToSection('help')">Help &
+          Support</a><a href="https://drive.google.com/file/d/1HQc1uRENmjwhyBfJsyjPkUbipY2jP0Uh/view?usp=sharing"
+          target="_blank">Download App</a>
+      </div>
+      <div class="footer-links-col">
+        <h4>Contact</h4>
+        <p><i class="fas fa-phone"></i> +8801401439995</p>
+        <p><i class="fas fa-envelope"></i> washezze@gmail.com</p>
+        <p><i class="fas fa-clock"></i> Mon–Sat: 8AM–9PM</p>
+        <p><i class="fas fa-robot"></i> Bubble Bot: 24/7</p>
       </div>
     </div>
+    <div class="footer-bottom">
+      <p>© 2026 EzzeWash. All rights reserved. | Made in Bangladesh</p>
+      <div class="footer-bottom-links"><a href="#terms" onclick="scrollToSection('terms')">Privacy Policy</a><a
+          href="#terms" onclick="scrollToSection('terms')">Terms of Service</a></div>
+    </div>
+  </footer>
 
-    <div class="order-panel" id="stepSuccess">
-      <div class="success-screen">
-        <div class="success-animation">
-          <div class="success-circle"><i class="fas fa-check"></i></div>
-          <div class="success-ripple"></div>
-          <div class="success-ripple delay"></div>
+  <div class="bubblebot-widget" id="bubblebotWidget">
+    <button class="bubblebot-fab" id="bubblebotFab" onclick="toggleBubbleBot()">
+      <i class="fas fa-robot bot-open-icon"></i>
+      <i class="fas fa-times bot-close-icon hidden"></i>
+      <span class="bot-pulse"></span>
+    </button>
+    <div class="bubblebot-chat glass-panel" id="bubblebotChat">
+      <div class="bot-chat-header">
+        <img src="assets/logos/ai_chatbot.webp" alt="Bubble Bot" class="bot-avatar" loading="lazy" decoding="async" />
+        <div>
+          <h4>Bubble Bot</h4><span class="bot-status"><i class="fas fa-circle"></i> Online — AI Assistant</span>
         </div>
-        <h2 class="success-title">Order Placed! 🎉</h2>
-        <p class="success-sub">Your laundry is in good hands. We'll notify you every step of the way!</p>
-        <div class="success-order-id">Order ID: <strong id="orderId"></strong></div>
-        <div class="success-details" id="successDetails"></div>
-        <button class="cta-btn primary-btn" onclick="resetOrder()">Place Another Order</button>
+        <button class="bot-close" onclick="toggleBubbleBot()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="bot-messages" id="botMessages">
+        <div class="bot-msg bot">
+          <div class="bot-msg-bubble">👋 Hi! I'm <strong>Bubble Bot</strong>, EzzeWash's AI assistant! How can I help
+            you today?</div>
+        </div>
+        <div class="bot-quick-replies">
+          <button onclick="botQuickReply('Track my order')">📦 Track Order</button>
+          <button onclick="botQuickReply('View services')">🧺 Services</button>
+          <button onclick="botQuickReply('Current promos')">🏷️ Promos</button>
+          <button onclick="botQuickReply('Store locations')">📍 Stores</button>
+        </div>
+      </div>
+      <div class="bot-input-row">
+        <input type="text" id="botInput" placeholder="Ask Bubble Bot..."
+          onkeypress="if(event.key==='Enter')sendBotMsg()" />
+        <button onclick="sendBotMsg()"><i class="fas fa-paper-plane"></i></button>
       </div>
     </div>
   </div>
-</section>
 
-<section class="section" id="services">
-  <div class="section-header center reveal">
-    <div class="section-badge"><i class="fas fa-concierge-bell"></i> What We Offer</div>
-    <h2 class="section-title">Our <span class="gradient-text">Premium Services</span></h2>
-    <p class="section-sub">Professional care for every type of fabric and garment</p>
-  </div>
-  <div class="services-grid" id="servicesGrid"></div>
-</section>
-
-<section class="section" id="stores">
-  <div class="section-header center reveal">
-    <div class="section-badge"><i class="fas fa-map-marker-alt"></i> Find Us</div>
-    <h2 class="section-title">Our <span class="gradient-text">Store Locations</span></h2>
-    <p class="section-sub">Four convenient locations across Dhaka city</p>
-  </div>
-  <div class="stores-grid">
-    <div class="store-card reveal">
-      <div class="store-img-wrap"><img src="assets/stores/mirpur.webp" alt="Mirpur Store" /><div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div></div>
-      <div class="store-info">
-        <h3>Ezzewash Mirpur</h3>
-        <p class="store-addr"><i class="fas fa-location-dot"></i> House 12, Road 4, Mirpur-10, Dhaka</p>
-        <p class="store-phone"><i class="fas fa-phone"></i> +8801616043914</p>
-        <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
-        <div class="store-tags"><span class="store-tag">Wash & Fold</span><span class="store-tag">Dry Clean</span><span class="store-tag">Express</span></div>
-        <a href="https://maps.google.com" target="_blank" class="store-map-btn"><i class="fas fa-directions"></i> Get Directions</a>
-      </div>
-    </div>
-    <div class="store-card reveal delay-1">
-      <div class="store-img-wrap"><img src="assets/stores/gulshan.webp" alt="Gulshan Store" /><div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div></div>
-      <div class="store-info">
-        <h3>Ezzewash Gulshan</h3>
-        <p class="store-addr"><i class="fas fa-location-dot"></i> Plot 7, Avenue 2, Gulshan-2, Dhaka</p>
-        <p class="store-phone"><i class="fas fa-phone"></i> +8801516503532</p>
-        <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
-        <div class="store-tags"><span class="store-tag">Suit Wash</span><span class="store-tag">Dry Clean</span><span class="store-tag">Delicate</span></div>
-        <a href="https://maps.google.com" target="_blank" class="store-map-btn"><i class="fas fa-directions"></i> Get Directions</a>
-      </div>
-    </div>
-    <div class="store-card reveal delay-2">
-      <div class="store-img-wrap"><img src="assets/stores/dhanmondi.webp" alt="Dhanmondi Store" /><div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div></div>
-      <div class="store-info">
-        <h3>Ezzewash Dhanmondi</h3>
-        <p class="store-addr"><i class="fas fa-location-dot"></i> House 35, Road 27, Dhanmondi, Dhaka</p>
-        <p class="store-phone"><i class="fas fa-phone"></i> +8801401439995</p>
-        <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
-        <div class="store-tags"><span class="store-tag">Iron Press</span><span class="store-tag">Steam</span><span class="store-tag">Shoe Clean</span></div>
-        <a href="https://maps.google.com" target="_blank" class="store-map-btn"><i class="fas fa-directions"></i> Get Directions</a>
-      </div>
-    </div>
-    <div class="store-card reveal delay-3">
-      <div class="store-img-wrap"><img src="assets/stores/chadd_uddan.webp" alt="Chadd Uddan Store" /><div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div></div>
-      <div class="store-info">
-        <h3>Ezzewash Chadd Uddan</h3>
-        <p class="store-addr"><i class="fas fa-location-dot"></i> Road 1, Chadd Uddan Housing, Mohammadpur,Dhaka</p>
-        <p class="store-phone"><i class="fas fa-phone"></i> +8801522135401</p>
-        <p class="store-hours"><i class="fas fa-clock"></i> Open: 8AM – 9PM (Every Day)</p>
-        <div class="store-tags"><span class="store-tag">All Services</span><span class="store-tag">Parking</span><span class="store-tag">24/7</span></div>
-        <a href="https://maps.app.goo.gl/jt5TfnefD14641HR8" target="_blank" class="store-map-btn"><i class="fas fa-directions"></i> Get Directions</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="promos">
-  <div class="section-header center reveal">
-    <div class="section-badge"><i class="fas fa-tags"></i> Special Offers</div>
-    <h2 class="section-title">Deals & <span class="gradient-text">Promotions</span></h2>
-    <p class="section-sub">Grab exclusive discounts — scroll to discover all offers!</p>
-  </div>
-  <div class="promos-scroll-wrap reveal">
-    <button class="promo-scroll-btn left" onclick="scrollPromos(-1)"><i class="fas fa-chevron-left"></i></button>
-    <div class="promos-scroll-track" id="promoTrack"></div>
-    <button class="promo-scroll-btn right" onclick="scrollPromos(1)"><i class="fas fa-chevron-right"></i></button>
-  </div>
-</section>
-
-<section class="section" id="terms">
-  <div class="section-header center reveal">
-    <div class="section-badge"><i class="fas fa-file-contract"></i> Legal</div>
-    <h2 class="section-title">Terms & <span class="gradient-text">Privacy Policy</span></h2>
-  </div>
-  <div class="terms-container reveal">
-    <div class="terms-tabs">
-      <button class="terms-tab active" onclick="switchTab(this, 'termsContent')">Terms of Service</button>
-      <button class="terms-tab" onclick="switchTab(this, 'privacyContent')">Privacy Policy</button>
-      <button class="terms-tab" onclick="switchTab(this, 'refundContent')">Refund Policy</button>
-    </div>
-    <div class="terms-body glass-panel" id="termsContent">
-      <div class="terms-section">
-        <h3><i class="fas fa-handshake"></i> 1. Service Agreement</h3>
-        <p>By placing an order with EzzeWash, you agree to our service terms. We reserve the right to refuse service for items that are heavily soiled, damaged beyond normal care, or present a risk to our equipment or staff.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-tshirt"></i> 2. Garment Care & Liability</h3>
-        <p>EzzeWash takes utmost care with every garment. However, we are not responsible for pre-existing damage, fading, or shrinkage due to the fabric's inherent nature. Customers must declare valuable or delicate items before submission.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-clock"></i> 3. Turnaround Time</h3>
-        <p>Standard service: 2–3 business days. Express service: 24 hours (subject to availability). EzzeWash will notify customers of delays. We are not liable for delays caused by force majeure.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-box"></i> 4. Lost or Damaged Items</h3>
-        <p>In the rare event of loss or significant damage caused by our negligence, EzzeWash will offer compensation up to 10× the service charge paid, not exceeding the item's declared value.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-tag"></i> 5. Pricing & Promo Codes</h3>
-        <p>Prices are subject to change without prior notice. Promo codes cannot be combined and are valid for stated periods only. Expired codes will not be honored.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-truck"></i> 6. Pickup & Delivery</h3>
-        <p>Delivery is available within specific zones in Dhaka. Delivery charges may apply. EzzeWash reserves the right to reschedule pickups or deliveries with prior notification.</p>
-      </div>
-    </div>
-    <div class="terms-body glass-panel hidden" id="privacyContent">
-      <div class="terms-section">
-        <h3><i class="fas fa-lock"></i> 1. Data Collection</h3>
-        <p>EzzeWash collects name, phone number, address, and payment information necessary to fulfill your orders. We do not collect sensitive data beyond what is required for our services.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-database"></i> 2. Data Storage & Security</h3>
-        <p>All personal data is stored on encrypted servers. We use industry-standard SSL/TLS encryption for data in transit. Your data is never sold to third parties.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-share-alt"></i> 3. Data Sharing</h3>
-        <p>We may share your delivery address with our logistics partners solely for order fulfillment. Payment data is handled by PCI-compliant payment processors and is never stored on our servers.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-user-edit"></i> 4. Your Rights</h3>
-        <p>You have the right to request access, correction, or deletion of your personal data. Contact us at privacy@ezzewash.com to exercise these rights.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-cookie"></i> 5. Cookies</h3>
-        <p>Our website uses cookies to improve user experience and analyze traffic. You may disable cookies in your browser, though some features may be affected.</p>
-      </div>
-    </div>
-    <div class="terms-body glass-panel hidden" id="refundContent">
-      <div class="terms-section">
-        <h3><i class="fas fa-undo"></i> 1. Refund Eligibility</h3>
-        <p>Refunds are available if: (a) we fail to complete the service within the agreed timeframe, (b) items are lost or significantly damaged due to our negligence, or (c) incorrect service was applied.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-calendar-times"></i> 2. Cancellation Policy</h3>
-        <p>Orders may be cancelled free of charge up to 2 hours before the scheduled pickup. Cancellations after pickup has occurred will incur a 20% processing fee.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-money-check"></i> 3. Refund Process</h3>
-        <p>Approved refunds will be processed within 5–7 business days. Card refunds will appear on your statement within 7–10 banking days. bKash/Nagad refunds are typically instant upon approval.</p>
-      </div>
-      <div class="terms-section">
-        <h3><i class="fas fa-envelope"></i> 4. How to Request</h3>
-        <p>Contact us at refunds@ezzewash.com or call our helpline within 48 hours of delivery with your order ID and description of the issue. Include photos of damaged items if applicable.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="help">
-  <div class="section-header center reveal">
-    <div class="section-badge"><i class="fas fa-headset"></i> We're Here</div>
-    <h2 class="section-title">Help & <span class="gradient-text">Support</span></h2>
-    <p class="section-sub">Got questions? We've got answers — anytime, anywhere.</p>
-  </div>
-  <div class="help-grid">
-    <div class="help-contact-cards reveal delay-1">
-      <div class="help-card"><div class="help-icon"><i class="fas fa-phone-alt"></i></div><h3>Call Us</h3><p>+8801401439995</p><span>Mon–Sat, 8AM–8PM</span><a href="tel:+8801401439995" class="help-action-btn">Call Now</a></div>
-      <div class="help-card"><div class="help-icon"><i class="fab fa-whatsapp"></i></div><h3>WhatsApp</h3><p>+8801516503532</p><span>Quick replies 24/7</span><a href="https://wa.me/+8801516503532" target="_blank" class="help-action-btn">Chat on WhatsApp</a></div>
-      <div class="help-card"><div class="help-icon"><i class="fas fa-envelope"></i></div><h3>Email</h3><p>washezze@gmail.com</p><span>Reply within 24 hours</span><a href="mailto:washezze@gmail.com" class="help-action-btn">Send Email</a></div>
-      <div class="help-card bubblebot-help-card" onclick="openBubbleBot()">
-        <div class="help-icon ai-icon"><i class="fas fa-robot"></i></div>
-        <h3>Bubble Bot</h3>
-        <p>AI-powered instant help</p>
-        <span>Available 24/7 always</span>
-        <button class="help-action-btn bot-btn">Chat Now</button>
-      </div>
-    </div>
-    <div class="faq-section reveal delay-2">
-      <h3 class="faq-title">Frequently Asked Questions</h3>
-      <div class="faq-list" id="faqList"></div>
-    </div>
-  </div>
-  <div class="contact-form-section reveal glass-panel">
-    <h3>Send Us a Message</h3>
-    <div class="contact-form">
-      <div class="form-row">
-        <div class="form-group"><label>Your Name</label><input type="text" class="form-input" placeholder="e.g. Rahim Ahmed" /></div>
-        <div class="form-group"><label>Phone / Email</label><input type="text" class="form-input" placeholder="Your contact info" /></div>
-      </div>
-      <div class="form-group"><label>Subject</label><select class="form-input"><option>Order Issue</option><option>Billing</option><option>Damaged Item</option><option>Lost Item</option><option>General Inquiry</option><option>Feedback</option></select></div>
-      <div class="form-group"><label>Message</label><textarea class="form-input form-textarea" placeholder="Describe your issue in detail..."></textarea></div>
-      <button class="cta-btn primary-btn" onclick="submitContactForm()"><i class="fas fa-paper-plane"></i> Send Message</button>
-    </div>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="footer-glow"></div>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <img src="assets/logos/logo.webp" alt="EzzeWash" class="footer-logo" />
-      <span class="footer-logo-text">EzzeWash</span>
-      <p class="footer-tagline">Bangladesh's most trusted laundry & dry cleaning service. Clean clothes, happy life.</p>
-      <div class="footer-socials">
-        <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="social-btn"><i class="fab fa-tiktok"></i></a>
-        <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
-      </div>
-    </div>
-    <div class="footer-links-col"><h4>Quick Links</h4><a href="#home" onclick="scrollToSection('home')">Home</a><a href="#order" onclick="scrollToSection('order')">Order</a><a href="#services" onclick="scrollToSection('services')">Services</a><a href="#stores" onclick="scrollToSection('stores')">Stores</a></div>
-    <div class="footer-links-col"><h4>More</h4><a href="#promos" onclick="scrollToSection('promos')">Promotions</a><a href="#terms" onclick="scrollToSection('terms')">Terms & Policy</a><a href="#help" onclick="scrollToSection('help')">Help & Support</a><a href="https://drive.google.com/file/d/1HQc1uRENmjwhyBfJsyjPkUbipY2jP0Uh/view?usp=sharing" target="_blank">Download App</a></div>
-    <div class="footer-links-col"><h4>Contact</h4><p><i class="fas fa-phone"></i> +8801401439995</p><p><i class="fas fa-envelope"></i> washezze@gmail.com</p><p><i class="fas fa-clock"></i> Mon–Sat: 8AM–9PM</p><p><i class="fas fa-robot"></i> Bubble Bot: 24/7</p></div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2026 EzzeWash. All rights reserved. | Made in Bangladesh</p>
-    <div class="footer-bottom-links"><a href="#terms" onclick="scrollToSection('terms')">Privacy Policy</a><a href="#terms" onclick="scrollToSection('terms')">Terms of Service</a></div>
-  </div>
-</footer>
-
-<div class="bubblebot-widget" id="bubblebotWidget">
-  <button class="bubblebot-fab" id="bubblebotFab" onclick="toggleBubbleBot()">
-    <i class="fas fa-robot bot-open-icon"></i>
-    <i class="fas fa-times bot-close-icon hidden"></i>
-    <span class="bot-pulse"></span>
-  </button>
-  <div class="bubblebot-chat glass-panel" id="bubblebotChat">
-    <div class="bot-chat-header">
-      <img src="assets/logos/ai_chatbot.webp" alt="Bubble Bot" class="bot-avatar" />
-      <div><h4>Bubble Bot</h4><span class="bot-status"><i class="fas fa-circle"></i> Online — AI Assistant</span></div>
-      <button class="bot-close" onclick="toggleBubbleBot()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="bot-messages" id="botMessages">
-      <div class="bot-msg bot"><div class="bot-msg-bubble">👋 Hi! I'm <strong>Bubble Bot</strong>, EzzeWash's AI assistant! How can I help you today?</div></div>
-      <div class="bot-quick-replies">
-        <button onclick="botQuickReply('Track my order')">📦 Track Order</button>
-        <button onclick="botQuickReply('View services')">🧺 Services</button>
-        <button onclick="botQuickReply('Current promos')">🏷️ Promos</button>
-        <button onclick="botQuickReply('Store locations')">📍 Stores</button>
-      </div>
-    </div>
-    <div class="bot-input-row">
-      <input type="text" id="botInput" placeholder="Ask Bubble Bot..." onkeypress="if(event.key==='Enter')sendBotMsg()" />
-      <button onclick="sendBotMsg()"><i class="fas fa-paper-plane"></i></button>
-    </div>
-  </div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
