@@ -411,7 +411,7 @@ function submitContactForm() {
 // BUBBLE BOT
 // ============================================================
 const BOT_RESPONSES = {
-  'track my order': 'You can track your order using your Order ID in the EzzeWash app. Download it here: https://drive.google.com/file/d/1HQc1uRENmjwhyBfJsyjPkUbipY2jP0Uh/view?usp=sharing',
+  'track my order': 'You can track your order using your Order ID in the EzzeWash app. Download it here: https://github.com/Abdulaowalasif/ezze-wash-apk-release/releases/download/v1.3.0/app-release.apk',
   'view services': 'We offer 9 premium services: Regular Wash & Fold, Comfort Clean, Shoe Clean, Suit Wash, Steam Clean, Iron Press, Express (12hr), Delicate Care, and Dry Clean Standard. Check them all in the Services section! 🧺',
   'current promos': 'Hot deals available now:\n🔥 BLUELOCK10 – 10% OFF\n⚡ THUNDER15 – 15% OFF Express\n👨‍💻 DEVSPECIAL – 20% OFF\n🦇 BATMAN25 – 25% OFF Premium\n🌸 BOISHAKH20 – 20% Seasonal\n...and more in the Promos section!',
   'store locations': '📍 We have 4 stores:\n1. Ezzewash Mirpur\n2. Ezzewash Gulshan\n3. Ezzewash Dhanmondi\n4. Ezzewash Chadd Uddan\nAll open 8AM–9PM daily!',
