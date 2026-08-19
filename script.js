@@ -1,6 +1,7 @@
 /* ============================================================
-   EZZEWASH — Full Website JavaScript
-   Upgraded: Dynamic Bubbles, Smooth Transitions, Parallax, Drag Sliders
+   EZZEWASH — Optimized Website JavaScript
+   Performance-first: Deferred init, event delegation, passive
+   listeners, debounced scroll, requestIdleCallback
    ============================================================ */
 
 // ---- Data ----
@@ -16,11 +17,6 @@ const PROMOS = [
   { name: 'TopLift Shoot', img: 'assets/promos/toplift.gif', code: 'TOPLIFT08', discount: '8% OFF', desc: 'Reach the top with clean clothes! 8% off suits.', expiry: 'Expires: 25 April 2026', isGif: false, tag: '8% OFF' },
 ];
 
-const PROMO_CODES = {
-  'BLUELOCK10': 10, 'THUNDER15': 15, 'DEVSPECIAL': 20, 'BATMAN25': 25,
-  'SLAYER12': 12, 'BOISHAKH20': 20, 'TOPLIFT08': 8,
-};
-
 const FAQ_DATA = [
   { q: 'How long does standard service take?', a: 'Standard Wash & Fold takes 2–3 business days. Express Service is available within 24 hours for an additional charge.' },
   { q: 'Do you offer pickup and delivery?', a: 'Yes! We offer free pickup and delivery within Dhaka city. Schedule your pickup through our website or app.' },
@@ -31,116 +27,286 @@ const FAQ_DATA = [
   { q: 'Is my clothing safe from shrinkage?', a: 'Our team is trained to read garment labels and use the appropriate washing method. However, pre-existing fabric conditions may cause minimal shrinkage.' },
 ];
 
-// ---- State ----
-// (Removed order wizard state)
-
 // ============================================================
-// SUPABASE INTEGRATION
+// SUPABASE INTEGRATION (lazy-loaded)
 // ============================================================
 const SUPABASE_URL = 'https://xxvicmprwtbxinuluyqx.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dmljbXByd3RieGludWx1eXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NzA2NzcsImV4cCI6MjA4OTA0NjY3N30.qgbvCBRdI1IOPj0AMLE301ZB1mVWuYWg61SS1kIOSvY';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let supabaseClient = null;
+
+function getSupabase() {
+  if (!supabaseClient && window.supabase) {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+  return supabaseClient;
+}
 
 async function fetchServices() {
-  const { data, error } = await supabaseClient.from('services').select('*').eq('is_active', true);
-  if (error) {
-    console.error('Error fetching services:', error);
+  const client = getSupabase();
+  if (!client) {
+    console.warn('Supabase SDK not yet loaded, retrying in 1s...');
+    setTimeout(fetchServices, 1000);
     return;
   }
-  SERVICES = data.map(item => ({
-    id: item.id,
-    name: item.title,
-    img: item.image_url,
-    price: item.price,
-    unit: '/piece',
-    badge: item.tags && item.tags.length > 0 ? item.tags[0] : '',
-    desc: item.description
-  }));
-  renderServicesSection();
+  try {
+    const { data, error } = await client.from('services').select('*').eq('is_active', true);
+    if (error) throw error;
+    SERVICES = data.map(item => ({
+      id: item.id,
+      name: item.title,
+      img: item.image_url,
+      price: item.price,
+      unit: '/piece',
+      badge: item.tags && item.tags.length > 0 ? item.tags[0] : '',
+      desc: item.description
+    }));
+    renderServicesSection();
+  } catch (err) {
+    console.error('Error fetching services:', err);
+    // Show fallback
+    const grid = document.getElementById('servicesGrid');
+    if (grid && !grid.hasChildNodes()) {
+      grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:2rem;">Loading services...</p>';
+    }
+  }
 }
 
 async function fetchStores() {
-  const { data, error } = await supabaseClient.from('stores').select('*').eq('is_active', true);
-  if (error) {
-    console.error('Error fetching stores:', error);
+  const client = getSupabase();
+  if (!client) {
+    console.warn('Supabase SDK not yet loaded, retrying in 1s...');
+    setTimeout(fetchStores, 1000);
     return;
   }
-  STORES = data;
-  renderStoresSection();
+  try {
+    const { data, error } = await client.from('stores').select('*').eq('is_active', true);
+    if (error) throw error;
+    STORES = data;
+    renderStoresSection();
+  } catch (err) {
+    console.error('Error fetching stores:', err);
+    const grid = document.getElementById('storesGrid');
+    if (grid && !grid.hasChildNodes()) {
+      grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:2rem;">Loading stores...</p>';
+    }
+  }
 }
 
 function subscribeToRealtime() {
-  supabaseClient
+  const client = getSupabase();
+  if (!client) return;
+  client
     .channel('public-changes')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, payload => {
-      fetchServices();
-    })
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'stores' }, payload => {
-      fetchStores();
-    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, () => fetchServices())
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'stores' }, () => fetchStores())
     .subscribe();
 }
 
 // ============================================================
-// INIT
+// SHARED INTERSECTION OBSERVER (single observer for reveals)
+// ============================================================
+let revealObserver = null;
+
+function getRevealObserver() {
+  if (!revealObserver) {
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  }
+  return revealObserver;
+}
+
+function observeNewReveals(root) {
+  const observer = getRevealObserver();
+  const target = root || document;
+  target.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+}
+
+// ============================================================
+// INIT — Critical path first, defer the rest
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Critical — affects first paint
   initTheme();
-  initBubbles();
   initNav();
 
-  // Fetch dynamic data
-  fetchServices();
-  fetchStores();
-  subscribeToRealtime();
-
+  // Render static content
   renderPromos();
-  initHomePromos();
   renderFAQ();
-  initScrollReveal();
+
+  // Observe scroll reveals
+  observeNewReveals();
+
+  // Counter animations
   initCounters();
 
-  // Dynamic Enhancements
-  initHeroParallax();
-  initDraggableSliders();
+  // Defer non-critical work
+  const deferWork = () => {
+    initBubbles();
+    initHeroParallax();
+    initDraggableSliders();
+    initEventDelegation();
+
+    // Fetch dynamic data after SDK loads
+    fetchServices();
+    fetchStores();
+    subscribeToRealtime();
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(deferWork, { timeout: 2000 });
+  } else {
+    setTimeout(deferWork, 100);
+  }
 });
 
 // ============================================================
-// DYNAMIC BACKGROUND BUBBLES
+// EVENT DELEGATION — Single listener for all click actions
 // ============================================================
-function initBubbles() {
-  const container = document.getElementById('bg-bubbles');
-  if (!container) return;
-  const bubbleCount = window.innerWidth > 768 ? 15 : 8;
-  for (let i = 0; i < bubbleCount; i++) {
-    const bubble = document.createElement('div');
-    bubble.className = 'bg-bubble';
+function initEventDelegation() {
+  document.addEventListener('click', (e) => {
+    const target = e.target;
 
-    const size = Math.random() * 70 + 30;
-    bubble.style.width = `${size}px`;
-    bubble.style.height = `${size}px`;
-    bubble.style.left = `${Math.random() * 100}vw`;
-    bubble.style.animationDuration = `${Math.random() * 13 + 12}s`;
-    bubble.style.animationDelay = `${Math.random() * 10}s`;
+    // data-scroll="sectionId" — smooth scroll
+    const scrollBtn = target.closest('[data-scroll]');
+    if (scrollBtn) {
+      e.preventDefault();
+      scrollToSection(scrollBtn.dataset.scroll);
+      return;
+    }
 
-    container.appendChild(bubble);
+    // data-action="open-bot" — open bubble bot
+    const actionBtn = target.closest('[data-action="open-bot"]');
+    if (actionBtn) {
+      openBubbleBot();
+      return;
+    }
+
+    // data-action="close-bot" — close bubble bot
+    const closeBtn = target.closest('[data-action="close-bot"]');
+    if (closeBtn) {
+      toggleBubbleBot();
+      return;
+    }
+
+    // data-promo-scroll — promo scroll buttons
+    const promoScrollBtn = target.closest('[data-promo-scroll]');
+    if (promoScrollBtn) {
+      scrollPromos(parseInt(promoScrollBtn.dataset.promoScroll));
+      return;
+    }
+
+    // data-tab — terms tabs
+    const tabBtn = target.closest('[data-tab]');
+    if (tabBtn) {
+      switchTab(tabBtn, tabBtn.dataset.tab);
+      return;
+    }
+
+    // data-bot-reply — quick replies
+    const botReplyBtn = target.closest('[data-bot-reply]');
+    if (botReplyBtn) {
+      botQuickReply(botReplyBtn.dataset.botReply);
+      return;
+    }
+
+    // FAQ toggle
+    const faqQuestion = target.closest('.faq-question');
+    if (faqQuestion) {
+      const faqItem = faqQuestion.closest('.faq-item');
+      if (faqItem) {
+        const isOpen = faqItem.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+        if (!isOpen) faqItem.classList.add('open');
+      }
+      return;
+    }
+
+    // Promo code copy
+    const promoCode = target.closest('.promo-code-display');
+    if (promoCode) {
+      const code = promoCode.querySelector('span').textContent;
+      copyPromoCode(code, promoCode);
+      return;
+    }
+
+    // Service order button
+    const serviceOrderBtn = target.closest('.service-order-btn');
+    if (serviceOrderBtn) {
+      scrollToSection('order');
+      return;
+    }
+
+    // Bubble bot FAB
+    if (target.closest('#bubblebotFab')) {
+      toggleBubbleBot();
+      return;
+    }
+
+    // Bot send button
+    if (target.closest('#botSendBtn')) {
+      sendBotMsg();
+      return;
+    }
+  });
+
+  // Bot input enter key
+  const botInput = document.getElementById('botInput');
+  if (botInput) {
+    botInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendBotMsg();
+    });
   }
 }
 
 // ============================================================
-// DYNAMIC HERO PARALLAX
+// BACKGROUND BUBBLES — Reduced count for performance
+// ============================================================
+function initBubbles() {
+  const container = document.getElementById('bg-bubbles');
+  if (!container) return;
+
+  // Reduced: 6 on desktop, 3 on mobile (was 15/8)
+  const bubbleCount = window.innerWidth > 768 ? 6 : 3;
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < bubbleCount; i++) {
+    const bubble = document.createElement('div');
+    bubble.className = 'bg-bubble';
+    const size = Math.random() * 70 + 30;
+    bubble.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random() * 100}vw;
+      animation-duration:${Math.random() * 13 + 12}s;
+      animation-delay:${Math.random() * 10}s;
+    `;
+    fragment.appendChild(bubble);
+  }
+  container.appendChild(fragment);
+}
+
+// ============================================================
+// HERO PARALLAX
 // ============================================================
 function initHeroParallax() {
   const wrap = document.querySelector('.hero-img-wrap');
-  if (!wrap) return;
+  const hero = document.querySelector('.hero');
+  if (!wrap || !hero) return;
+
   let ticking = false;
+
   document.addEventListener('mousemove', (e) => {
     if (window.innerWidth < 900) {
-      wrap.style.transform = 'none'; // Disable on mobile to prevent jitter
+      wrap.style.transform = 'none';
       return;
     }
     if (!ticking) {
-      window.requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
         const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
         const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
         wrap.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
@@ -148,18 +314,17 @@ function initHeroParallax() {
       });
       ticking = true;
     }
-  });
+  }, { passive: true });
 
-  // Reset on leave to maintain standard styling
-  document.querySelector('.hero').addEventListener('mouseleave', () => {
+  hero.addEventListener('mouseleave', () => {
     if (window.innerWidth >= 900) {
-      wrap.style.transform = `rotateY(-5deg) rotateX(2deg)`;
+      wrap.style.transform = 'rotateY(-5deg) rotateX(2deg)';
     }
-  });
+  }, { passive: true });
 }
 
 // ============================================================
-// DRAGGABLE SLIDERS (PROMOS & APP SHOWCASE)
+// DRAGGABLE SLIDERS
 // ============================================================
 function initDraggableSliders() {
   const sliders = [document.getElementById('promoTrack'), document.querySelector('.app-showcase')];
@@ -175,19 +340,22 @@ function initDraggableSliders() {
       startX = e.pageX - slider.offsetLeft;
       scrollLeft = slider.scrollLeft;
     });
+
     slider.addEventListener('mouseleave', () => {
       isDown = false;
       slider.classList.remove('active');
-    });
+    }, { passive: true });
+
     slider.addEventListener('mouseup', () => {
       isDown = false;
       slider.classList.remove('active');
-    });
+    }, { passive: true });
+
     slider.addEventListener('mousemove', (e) => {
       if (!isDown) return;
       e.preventDefault();
       const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 2; // Scroll speed multiplier
+      const walk = (x - startX) * 2;
       slider.scrollLeft = scrollLeft - walk;
     });
   });
@@ -210,24 +378,38 @@ function toggleTheme() {
 }
 
 // ============================================================
-// NAVBAR
+// NAVBAR — With debounced scroll
 // ============================================================
+let scrollTicking = false;
+
 function initNav() {
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
-  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
 
-  window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
-    updateActiveNav();
+  hamburger.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen);
   });
 
+  // Debounced scroll handler
+  window.addEventListener('scroll', () => {
+    if (!scrollTicking) {
+      requestAnimationFrame(() => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+        updateActiveNav();
+        scrollTicking = false;
+      });
+      scrollTicking = true;
+    }
+  }, { passive: true });
+
+  // Nav link clicks
   document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
-      const page = link.dataset.page;
-      scrollToSection(page);
+      scrollToSection(link.dataset.page);
       navLinks.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
     });
   });
 }
@@ -236,10 +418,13 @@ function updateActiveNav() {
   const sections = ['home', 'order', 'services', 'stores', 'promos', 'terms', 'help'];
   const offset = 120;
   let current = 'home';
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && window.scrollY >= el.offsetTop - offset) current = id;
-  });
+  for (let i = sections.length - 1; i >= 0; i--) {
+    const el = document.getElementById(sections[i]);
+    if (el && window.scrollY >= el.offsetTop - offset) {
+      current = sections[i];
+      break;
+    }
+  }
   document.querySelectorAll('.nav-link').forEach(l => {
     l.classList.toggle('active', l.dataset.page === current);
   });
@@ -259,7 +444,7 @@ function renderServicesSection() {
   grid.innerHTML = SERVICES.map(s => `
     <div class="service-card reveal">
       <div class="service-card-img">
-        <img src="${s.img}" alt="${s.name}" loading="lazy" decoding="async" />
+        <img src="${s.img}" alt="${s.name}" width="300" height="220" loading="lazy" decoding="async" />
         ${s.badge ? `<div class="service-card-badge">${s.badge}</div>` : ''}
       </div>
       <div class="service-card-body">
@@ -267,18 +452,13 @@ function renderServicesSection() {
         <p>${s.desc}</p>
         <div class="service-card-footer">
           <span class="service-price">From ৳${s.price}<small>${s.unit}</small></span>
-          <button class="service-order-btn" onclick="goOrder('${s.id}')">Order Now</button>
+          <button class="service-order-btn" data-service-id="${s.id}">Order Now</button>
         </div>
       </div>
     </div>
   `).join('');
 
-  // Re-trigger scroll reveal for newly added elements
-  initScrollReveal();
-}
-
-function goOrder(serviceId) {
-  scrollToSection('order');
+  observeNewReveals(grid);
 }
 
 // ============================================================
@@ -290,27 +470,26 @@ function renderStoresSection() {
   grid.innerHTML = STORES.map((s, index) => `
     <div class="store-card reveal delay-${index % 4}">
       <div class="store-img-wrap">
-        <img src="${s.logo_url}" alt="${s.name}" loading="lazy" decoding="async" />
-        <div class="store-img-overlay"><i class="fas fa-map-marker-alt"></i></div>
+        <img src="${s.logo_url}" alt="${s.name}" width="300" height="220" loading="lazy" decoding="async" />
+        <div class="store-img-overlay" aria-hidden="true"><i class="fas fa-map-marker-alt"></i></div>
       </div>
       <div class="store-info">
         <h3>${s.name}</h3>
-        <p class="store-addr"><i class="fas fa-location-dot"></i> ${s.address}</p>
-        <p class="store-phone"><i class="fas fa-phone"></i> ${s.phone}</p>
-        <p class="store-hours"><i class="fas fa-clock"></i> Open: ${s.open_hour > 12 ? s.open_hour - 12 + 'PM' : s.open_hour + 'AM'} – ${s.close_hour > 12 ? s.close_hour - 12 + 'PM' : s.close_hour + 'AM'}</p>
+        <p class="store-addr"><i class="fas fa-location-dot" aria-hidden="true"></i> ${s.address}</p>
+        <p class="store-phone"><i class="fas fa-phone" aria-hidden="true"></i> ${s.phone}</p>
+        <p class="store-hours"><i class="fas fa-clock" aria-hidden="true"></i> Open: ${s.open_hour > 12 ? s.open_hour - 12 + 'PM' : s.open_hour + 'AM'} – ${s.close_hour > 12 ? s.close_hour - 12 + 'PM' : s.close_hour + 'AM'}</p>
         <div class="store-tags">
           <span class="store-tag">${s.city}</span>
           <span class="store-tag">~${s.distance_km}km</span>
         </div>
-        <a href="https://maps.google.com/?q=${s.latitude},${s.longitude}" target="_blank" class="store-map-btn">
-          <i class="fas fa-directions"></i> Get Directions
+        <a href="https://maps.google.com/?q=${s.latitude},${s.longitude}" target="_blank" rel="noopener noreferrer" class="store-map-btn">
+          <i class="fas fa-directions" aria-hidden="true"></i> Get Directions
         </a>
       </div>
     </div>
   `).join('');
 
-  // Re-trigger scroll reveal for newly added elements
-  initScrollReveal();
+  observeNewReveals(grid);
 }
 
 // ============================================================
@@ -322,30 +501,23 @@ function renderPromos() {
   track.innerHTML = PROMOS.map(p => promoCardHTML(p)).join('');
 }
 
-function initHomePromos() {
-  const track = document.getElementById('homePromoTrack');
-  if (!track) return;
-  const cards = PROMOS.map(p => promoCardHTML(p, true)).join('');
-  track.innerHTML = cards + cards;
-}
-
-function promoCardHTML(p, small = false) {
+function promoCardHTML(p) {
   return `
-    <div class="promo-card${small ? ' small' : ''}">
+    <div class="promo-card">
       ${p.tag ? `<div class="promo-tag">${p.tag}</div>` : ''}
       <div class="promo-card-media">
-        <img src="${p.img}" alt="${p.name}" loading="lazy" decoding="async" />
+        <img src="${p.img}" alt="${p.name}" width="300" height="190" loading="lazy" decoding="async" />
         ${p.isGif ? '<div class="promo-gif-badge">GIF</div>' : ''}
       </div>
       <div class="promo-card-body">
         <h3>${p.name}</h3>
         <div class="promo-discount">${p.discount}</div>
         <p style="font-size:0.85rem;font-weight:500;color:var(--text-muted);margin-bottom:0.5rem">${p.desc}</p>
-        <div class="promo-code-display" onclick="copyPromoCode('${p.code}', this)">
+        <div class="promo-code-display">
           <span>${p.code}</span>
-          <i class="fas fa-copy"></i>
+          <i class="fas fa-copy" aria-hidden="true"></i>
         </div>
-        <div class="promo-expiry"><i class="fas fa-clock" style="color:var(--warning);margin-right:6px"></i>${p.expiry}</div>
+        <div class="promo-expiry"><i class="fas fa-clock" style="color:var(--warning);margin-right:6px" aria-hidden="true"></i>${p.expiry}</div>
       </div>
     </div>
   `;
@@ -358,7 +530,11 @@ function copyPromoCode(code, el) {
   icon.style.color = 'var(--success)';
   icon.style.transform = 'scale(1.2)';
   showToast('Promo code copied!', 'success');
-  setTimeout(() => { icon.className = 'fas fa-copy'; icon.style.color = ''; icon.style.transform = 'scale(1)'; }, 2000);
+  setTimeout(() => {
+    icon.className = 'fas fa-copy';
+    icon.style.color = '';
+    icon.style.transform = 'scale(1)';
+  }, 2000);
 }
 
 function scrollPromos(dir) {
@@ -370,9 +546,13 @@ function scrollPromos(dir) {
 // TERMS TABS
 // ============================================================
 function switchTab(btn, contentId) {
-  document.querySelectorAll('.terms-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.terms-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
   document.querySelectorAll('.terms-body').forEach(b => b.classList.add('hidden'));
   btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
   document.getElementById(contentId).classList.remove('hidden');
 }
 
@@ -384,27 +564,13 @@ function renderFAQ() {
   if (!list) return;
   list.innerHTML = FAQ_DATA.map((f, i) => `
     <div class="faq-item" id="faq${i}">
-      <div class="faq-question" onclick="toggleFaq(${i})">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
         <span>${f.q}</span>
-        <i class="fas fa-chevron-down"></i>
+        <i class="fas fa-chevron-down" aria-hidden="true"></i>
       </div>
-      <div class="faq-answer"><p>${f.a}</p></div>
+      <div class="faq-answer" role="region"><p>${f.a}</p></div>
     </div>
   `).join('');
-}
-
-function toggleFaq(i) {
-  const item = document.getElementById('faq' + i);
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
-}
-
-// ============================================================
-// CONTACT FORM
-// ============================================================
-function submitContactForm() {
-  showToast('Message sent! We\'ll reply within 24 hours. 📩', 'success');
 }
 
 // ============================================================
@@ -481,24 +647,6 @@ function showBotTyping() {
 function hideBotTyping() { if (typingEl) { typingEl.remove(); typingEl = null; } }
 
 // ============================================================
-// SCROLL REVEAL (Enhanced)
-// ============================================================
-function initScrollReveal() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-
-  document.querySelectorAll('.reveal').forEach(el => {
-    observer.observe(el);
-  });
-}
-
-// ============================================================
 // COUNTERS
 // ============================================================
 function initCounters() {
@@ -535,9 +683,7 @@ function showToast(message, type = 'success') {
   const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle' };
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  toast.innerHTML = `<i class="fas ${icons[type] || icons.success}"></i><span>${message}</span>`;
+  toast.innerHTML = `<i class="fas ${icons[type] || icons.success}" aria-hidden="true"></i><span>${message}</span>`;
   document.body.appendChild(toast);
   setTimeout(() => { if (toast) toast.remove() }, 3400);
 }
-
-
