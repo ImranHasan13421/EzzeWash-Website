@@ -34,6 +34,18 @@ const SUPABASE_URL = 'https://xxvicmprwtbxinuluyqx.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dmljbXByd3RieGludWx1eXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NzA2NzcsImV4cCI6MjA4OTA0NjY3N30.qgbvCBRdI1IOPj0AMLE301ZB1mVWuYWg61SS1kIOSvY';
 let supabaseClient = null;
 
+function loadSupabaseScript() {
+  return new Promise((resolve, reject) => {
+    if (window.supabase) return resolve();
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    script.async = true;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.body.appendChild(script);
+  });
+}
+
 function getSupabase() {
   if (!supabaseClient && window.supabase) {
     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -42,6 +54,7 @@ function getSupabase() {
 }
 
 async function fetchServices() {
+  await loadSupabaseScript();
   const client = getSupabase();
   if (!client) {
     console.warn('Supabase SDK not yet loaded, retrying in 1s...');
@@ -72,6 +85,7 @@ async function fetchServices() {
 }
 
 async function fetchStores() {
+  await loadSupabaseScript();
   const client = getSupabase();
   if (!client) {
     console.warn('Supabase SDK not yet loaded, retrying in 1s...');

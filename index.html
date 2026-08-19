@@ -13,12 +13,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://xxvicmprwtbxinuluyqx.supabase.co" />
 
+  <!-- Preload LCP hero image -->
+  <link rel="preload" as="image" href="assets/logos/hero-image.webp" fetchpriority="high" />
+
   <!-- Critical CSS first -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Google Fonts with display=swap for non-blocking text render -->
+  <!-- Google Fonts deferred (async) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  </noscript>
 
   <!-- Font Awesome deferred — not render-blocking -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print"
@@ -580,8 +587,7 @@
     </div>
   </div>
 
-  <!-- Supabase SDK — deferred to not block rendering -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <!-- Scripts -->
   <script src="script.js" defer></script>
 </body>
 
