@@ -60,7 +60,7 @@
           <span class="sun-icon" aria-hidden="true"><i class="fas fa-sun"></i></span>
           <span class="moon-icon" aria-hidden="true"><i class="fas fa-moon"></i></span>
         </button>
-        <button class="cta-btn nav-cta" data-scroll="order" aria-label="Order Now">Order Now</button>
+        <a href="https://github.com/Abdulaowalasif/ezze-wash-apk-release/releases/download/v1.4.7/app-release.apk" target="_blank" rel="noopener noreferrer" class="cta-btn nav-cta download-app-btn" aria-label="Download App"><i class="fas fa-arrow-down" aria-hidden="true"></i> Download App</a>
         <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
@@ -248,7 +248,7 @@
     <section class="section" id="order" aria-label="Order Process">
       <div class="section-header center reveal">
         <div class="section-badge"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Place Order</div>
-        <h2 class="section-title">Order in <span class="gradient-text">5 Easy Steps</span></h2>
+        <h2 class="section-title">Order in <span class="gradient-text">6 Easy Steps</span></h2>
         <p class="section-sub">Get your clothes cleaned without leaving home</p>
       </div>
 
@@ -283,24 +283,33 @@
         </div>
 
         <div class="timeline-item right reveal delay-3">
-          <div class="timeline-icon" aria-hidden="true"><i class="fas fa-balance-scale"></i></div>
+          <div class="timeline-icon" aria-hidden="true"><i class="fas fa-truck-loading"></i></div>
           <div class="timeline-content glass-panel">
             <div class="step-num">Step 4</div>
-            <h3>Insert Quantity and Promo</h3>
-            <p>Add the number of items or weight, and apply your exclusive promo code for amazing discounts.</p>
+            <h3>Select your Pickup and Delivery Location</h3>
+            <p>Set your preferred pickup and delivery address for a seamless doorstep experience.</p>
           </div>
         </div>
 
         <div class="timeline-item left reveal delay-4">
-          <div class="timeline-icon" aria-hidden="true"><i class="fas fa-credit-card"></i></div>
+          <div class="timeline-icon" aria-hidden="true"><i class="fas fa-balance-scale"></i></div>
           <div class="timeline-content glass-panel">
             <div class="step-num">Step 5</div>
-            <h3>Choose Payment Method</h3>
-            <p>Pay easily via Cash on Delivery (COD) or securely online using bKash, Nagad, or Cards.</p>
+            <h3>Insert Quantity and Modify Order</h3>
+            <p>Add the number of items or weight, and review or modify your order details before proceeding.</p>
           </div>
         </div>
 
         <div class="timeline-item right reveal delay-5">
+          <div class="timeline-icon" aria-hidden="true"><i class="fas fa-tags"></i></div>
+          <div class="timeline-content glass-panel">
+            <div class="step-num">Step 6</div>
+            <h3>Insert Promo and Confirm Order</h3>
+            <p>Apply your exclusive promo code for amazing discounts and confirm your order to get started.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item left reveal delay-6" id="orderConfirmStep">
           <div class="timeline-icon success-icon" aria-hidden="true"><i class="fas fa-check-circle"></i></div>
           <div class="timeline-content glass-panel success-panel">
             <div class="step-num success">Done</div>
@@ -585,6 +594,12 @@
         <button id="botSendBtn" aria-label="Send message"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
       </div>
     </div>
+  </div>
+
+  <!-- Party Popper Celebration Overlay -->
+  <div class="celebration-overlay" id="celebrationOverlay" aria-hidden="true">
+    <canvas id="confettiCanvas"></canvas>
+    <div class="celebration-text" id="celebrationText">🎉 Your Order is Placed 🎉</div>
   </div>
 
   <!-- Scripts -->

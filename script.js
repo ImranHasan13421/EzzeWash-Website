@@ -165,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroParallax();
     initDraggableSliders();
     initEventDelegation();
+    initCelebration();
 
     // Fetch dynamic data after SDK loads
     fetchServices();
@@ -591,13 +592,13 @@ function renderFAQ() {
 // BUBBLE BOT
 // ============================================================
 const BOT_RESPONSES = {
-  'track my order': 'You can track your order using your Order ID in the EzzeWash app. Download it here: https://github.com/Abdulaowalasif/ezze-wash-apk-release/releases/download/v1.3.0/app-release.apk',
-  'view services': 'We offer 9 premium services: Regular Wash & Fold, Comfort Clean, Shoe Clean, Suit Wash, Steam Clean, Iron Press, Express (12hr), Delicate Care, and Dry Clean Standard. Check them all in the Services section! 🧺',
+  'track my order': '__TRACK_ORDER__',
+  'view services': '__DYNAMIC_SERVICES__',
   'current promos': 'Hot deals available now:\n🔥 BLUELOCK10 – 10% OFF\n⚡ THUNDER15 – 15% OFF Express\n👨‍💻 DEVSPECIAL – 20% OFF\n🦇 BATMAN25 – 25% OFF Premium\n🌸 BOISHAKH20 – 20% Seasonal\n...and more in the Promos section!',
-  'store locations': '📍 We have 4 stores:\n1. Ezzewash Mirpur\n2. Ezzewash Gulshan\n3. Ezzewash Dhanmondi\n4. Ezzewash Chadd Uddan\nAll open 8AM–9PM daily!',
+  'store locations': '__DYNAMIC_STORES__',
   'hello': "Hello! 👋 I'm Bubble Bot, EzzeWash's AI assistant! How can I help you today?",
   'hi': "Hi there! 😊 I'm Bubble Bot! Ask me about services, promos, stores, or your order!",
-  'download app': 'Download the EzzeWash app here: https://drive.google.com/file/d/1NyCaQkedtT0K8KiEoQ11Fx4vqBwW4VWZ/view?usp=sharing 📱',
+  'download app': 'Download the EzzeWash app here: <a href="https://github.com/Abdulaowalasif/ezze-wash-apk-release/releases/download/v1.4.7/app-release.apk" target="_blank" rel="noopener noreferrer" style="color:var(--blue-2);font-weight:700;">Download EzzeWash App</a> 📱',
   'payment': 'We accept Cash on Delivery (COD), bKash, Nagad, and all major credit/debit cards! 💳',
   'price': 'Our prices start at ৳50 for Iron Press and go up to ৳300 for Suit Wash. Check the Services section for full pricing! 💰',
   'delivery': 'We offer free pickup & delivery within Dhaka city! Schedule in the Order section or via the app. 🚚',
@@ -605,24 +606,78 @@ const BOT_RESPONSES = {
 };
 
 function openBubbleBot() {
-  document.getElementById('bubblebotChat').classList.add('open');
-  document.querySelector('.bot-open-icon').classList.add('hidden');
-  document.querySelector('.bot-close-icon').classList.remove('hidden');
-  document.querySelector('.bot-pulse').style.display = 'none';
+  const chat = document.getElementById('bubblebotChat');
+  const openIcon = document.querySelector('.bot-open-icon');
+  const closeIcon = document.querySelector('.bot-close-icon');
+  const pulse = document.querySelector('.bot-pulse');
+  chat.classList.add('open');
+  openIcon.classList.add('hidden');
+  closeIcon.classList.remove('hidden');
+  pulse.style.display = 'none';
 }
 
 function toggleBubbleBot() {
   const chat = document.getElementById('bubblebotChat');
-  chat.classList.toggle('open');
-  const isOpen = chat.classList.contains('open');
-  document.querySelector('.bot-open-icon').classList.toggle('hidden', isOpen);
-  document.querySelector('.bot-close-icon').classList.toggle('hidden', !isOpen);
-  document.querySelector('.bot-pulse').style.display = isOpen ? 'none' : 'block';
+  const openIcon = document.querySelector('.bot-open-icon');
+  const closeIcon = document.querySelector('.bot-close-icon');
+  const pulse = document.querySelector('.bot-pulse');
+  const isCurrentlyOpen = chat.classList.contains('open');
+
+  if (isCurrentlyOpen) {
+    // Close the bot
+    chat.classList.remove('open');
+    openIcon.classList.remove('hidden');
+    closeIcon.classList.add('hidden');
+    pulse.style.display = 'block';
+  } else {
+    // Open the bot
+    chat.classList.add('open');
+    openIcon.classList.add('hidden');
+    closeIcon.classList.remove('hidden');
+    pulse.style.display = 'none';
+  }
 }
 
 function botQuickReply(text) {
   document.getElementById('botInput').value = text;
   sendBotMsg();
+}
+
+function getDynamicBotReply(key) {
+  const response = BOT_RESPONSES[key];
+
+  // Track my order — show text with clickable blue download link
+  if (response === '__TRACK_ORDER__') {
+    return 'You can track your order using your Order ID in the EzzeWash app. Download it here: <a href="https://github.com/Abdulaowalasif/ezze-wash-apk-release/releases/download/v1.4.7/app-release.apk" target="_blank" rel="noopener noreferrer" style="color:var(--blue-2);font-weight:700;text-decoration:underline;">Download EzzeWash App</a>';
+  }
+
+  // Dynamic services from Supabase
+  if (response === '__DYNAMIC_SERVICES__') {
+    if (SERVICES.length === 0) {
+      return 'Services are loading... Please try again in a moment! 🧺';
+    }
+    let reply = `🧺 We offer <strong>${SERVICES.length}</strong> premium services:\n`;
+    SERVICES.forEach((s, i) => {
+      reply += `${i + 1}. ${s.name} (৳${s.price})\n`;
+    });
+    reply += '\nCheck them all in the Services section!';
+    return reply;
+  }
+
+  // Dynamic stores from Supabase
+  if (response === '__DYNAMIC_STORES__') {
+    if (STORES.length === 0) {
+      return 'Store info is loading... Please try again in a moment! 📍';
+    }
+    let reply = `📍 We have <strong>${STORES.length}</strong> stores:\n`;
+    STORES.forEach((s, i) => {
+      reply += `${i + 1}. ${s.name}\n`;
+    });
+    reply += '\nAll stores are open daily!';
+    return reply;
+  }
+
+  return response;
 }
 
 function sendBotMsg() {
@@ -635,7 +690,7 @@ function sendBotMsg() {
   setTimeout(() => {
     hideBotTyping();
     const key = Object.keys(BOT_RESPONSES).find(k => msg.toLowerCase().includes(k));
-    const reply = key ? BOT_RESPONSES[key] : "I'm not sure about that. For detailed help, please contact our support team at washezze@gmail.com or call +880 1700-3993. 😊";
+    const reply = key ? getDynamicBotReply(key) : "I'm not sure about that. For detailed help, please contact our support team at washezze@gmail.com or call +880 1700-3993. 😊";
     addBotMessage(reply, 'bot');
   }, 1400);
 }
@@ -644,7 +699,13 @@ function addBotMessage(text, role) {
   const msgs = document.getElementById('botMessages');
   const div = document.createElement('div');
   div.className = `bot-msg ${role}`;
-  div.innerHTML = `<div class="bot-msg-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+  // For bot messages, allow HTML (for links); for user messages, escape HTML
+  if (role === 'bot') {
+    div.innerHTML = `<div class="bot-msg-bubble">${text.replace(/\\n/g, '<br>').replace(/\n/g, '<br>')}</div>`;
+  } else {
+    const sanitized = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    div.innerHTML = `<div class="bot-msg-bubble">${sanitized}</div>`;
+  }
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
 }
@@ -700,4 +761,126 @@ function showToast(message, type = 'success') {
   toast.innerHTML = `<i class="fas ${icons[type] || icons.success}" aria-hidden="true"></i><span>${message}</span>`;
   document.body.appendChild(toast);
   setTimeout(() => { if (toast) toast.remove() }, 3400);
+}
+
+// ============================================================
+// CELEBRATION — Party Popper Confetti Animation
+// ============================================================
+function initCelebration() {
+  const confirmStep = document.getElementById('orderConfirmStep');
+  if (!confirmStep) return;
+
+  // Only show once per session
+  if (sessionStorage.getItem('ezze-celebration-shown')) return;
+
+  const celebrationObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        celebrationObserver.unobserve(e.target);
+        triggerCelebration();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  celebrationObserver.observe(confirmStep);
+}
+
+function triggerCelebration() {
+  // Mark as shown for this session
+  sessionStorage.setItem('ezze-celebration-shown', 'true');
+
+  const overlay = document.getElementById('celebrationOverlay');
+  const canvas = document.getElementById('confettiCanvas');
+  if (!overlay || !canvas) return;
+
+  overlay.classList.add('active');
+
+  // Setup canvas
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  // Confetti particles
+  const colors = [
+    '#FF6B35', '#0070F3', '#10B981', '#F59E0B', '#EF4444',
+    '#8B5CF6', '#EC4899', '#3B9BFF', '#FFD700', '#FF3B30',
+    '#00C9FF', '#FF6B6B', '#4ADE80', '#FBBF24', '#A78BFA'
+  ];
+
+  const particles = [];
+  const particleCount = Math.min(200, Math.floor(window.innerWidth / 4));
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height * -1,
+      w: Math.random() * 12 + 5,
+      h: Math.random() * 8 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speedY: Math.random() * 4 + 2,
+      speedX: (Math.random() - 0.5) * 3,
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 10,
+      opacity: Math.random() * 0.5 + 0.5,
+      shape: Math.random() > 0.5 ? 'rect' : 'circle'
+    });
+  }
+
+  let animFrame;
+  let elapsed = 0;
+  const duration = 4000; // 4 seconds of confetti
+  let lastTime = performance.now();
+
+  function animateConfetti(now) {
+    const dt = now - lastTime;
+    lastTime = now;
+    elapsed += dt;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+      p.y += p.speedY;
+      p.x += p.speedX;
+      p.rotation += p.rotationSpeed;
+
+      // Gentle gravity wobble
+      p.speedX += (Math.random() - 0.5) * 0.2;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.globalAlpha = p.opacity;
+      ctx.fillStyle = p.color;
+
+      if (p.shape === 'rect') {
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      } else {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+
+      // Reset particles that fall off screen
+      if (p.y > canvas.height + 20) {
+        p.y = -20;
+        p.x = Math.random() * canvas.width;
+      }
+    });
+
+    if (elapsed < duration) {
+      animFrame = requestAnimationFrame(animateConfetti);
+    } else {
+      // Fade out
+      overlay.classList.add('fade-out');
+      setTimeout(() => {
+        cancelAnimationFrame(animFrame);
+        overlay.classList.remove('active', 'fade-out');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }, 600);
+    }
+  }
+
+  animFrame = requestAnimationFrame(animateConfetti);
 }
